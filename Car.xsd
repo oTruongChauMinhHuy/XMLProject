@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.fpt.edu.vn/project/car"
+           xmlns:ca="http://www.fpt.edu.vn/project/car"
+           xmlns:dr="http://www.fpt.edu.vn/project/driver">
+    <xs:import namespace="http://www.fpt.edu.vn/project/driver" schemaLocation="Driver.xsd"/>
+    <xs:element name="Car">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="dr:Driver"/>
+                <xs:element name="numberOfSeats" type="xs:int"/>
+                <xs:element name="Passengers">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="passenger" type="ca:passenger" maxOccurs="3"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="numberPlate" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="passenger">
+        <xs:sequence>
+            <xs:element name="seatNumber" type="xs:int"/>
+            <xs:element name="passengerName" type="xs:normalizedString"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="" ?>
+<Car xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+     xmlns="http://www.fpt.edu.vn/project/car" 
+     xsi:schemaLocation="http://www.fpt.edu.vn/project/car Car.xsd" 
+     xmlns:dr="http://www.fpt.edu.vn/project/driver" 
+     numberPlate="019294">
+    <dr:Driver id="111">   
+        <dr:name>ABC</dr:name>
+        <dr:DOB>2006-12-12</dr:DOB>
+        <dr:salary>3100000</dr:salary>
+    </dr:Driver>
+    <numberOfSeats>10</numberOfSeats>
+    <Passengers>
+        <passenger>
+            <seatNumber>1</seatNumber>
+            <passengerName>Huy Truong</passengerName>
+        </passenger>
+        <passenger>
+            <seatNumber>1</seatNumber>
+            <passengerName>Huy Truong</passengerName>
+        </passenger>
+        <passenger>
+            <seatNumber>1</seatNumber>
+            <passengerName>Huy Truong</passengerName>
+        </passenger>
+        <passenger>
+            <seatNumber>1</seatNumber>
+            <passengerName>Huy Truong</passengerName>
+        </passenger>
+    </Passengers>
+</Car>

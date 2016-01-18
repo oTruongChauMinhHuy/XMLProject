@@ -24,9 +24,5 @@
             <seatNumber>1</seatNumber>
             <passengerName>Huy Truong</passengerName>
         </passenger>
-        <passenger>
-            <seatNumber>1</seatNumber>
-            <passengerName>Huy Truong</passengerName>
-        </passenger>
     </Passengers>
 </Car>

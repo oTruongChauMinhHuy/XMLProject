@@ -20,7 +20,7 @@ and open the template in the editor.
                 <xs:element name="Passengers">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="passenger" type="ca:passenger" maxOccurs="3"/>
+                            <xs:element name="passenger" type="ca:passenger" maxOccurs="30"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

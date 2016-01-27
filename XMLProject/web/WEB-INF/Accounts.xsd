@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.fpt.edu.vn/project/account"
+           xmlns:="http://www.fpt.edu.vn/project/account">
+    <xs:element name="Accounts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="account" type="Account"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="Account">
+        <xs:sequence>
+            <xs:element name="username" type="xs:string"/>
+            <xs:element name="password" type="password"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:int" use="required"/>
+    </xs:complexType>
+    <xs:simpleType name="password">
+        <xs:restriction base="xs:string">
+            
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

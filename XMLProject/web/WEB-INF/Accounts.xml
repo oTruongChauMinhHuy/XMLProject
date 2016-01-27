@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Accounts
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+    xmlns:='http://www.fpt.edu.vn/project/account'
+    xsi:schemaLocation='http://www.fpt.edu.vn/project/account Accounts.xsd'>
+    <account id="1">
+        <username>HuyTCM</username>
+        <password>1234</password>
+    </account>
+    <account id="2">
+        <username>ThuyNTN</username>
+        <password></password>
+    </account>
+    <account id="1">
+        <username>HuyTCM</username>
+        <password>1234</password>
+    </account>
+</Accounts>

@@ -8,6 +8,15 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.servlet.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ServletAdaptor</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>com.services.ApplicationConfig</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/ControllerServlet</url-pattern>
@@ -15,6 +24,10 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServletAdaptor</servlet-name>
+        <url-pattern>/webresources/*</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

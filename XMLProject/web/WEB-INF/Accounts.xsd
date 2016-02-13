@@ -13,7 +13,7 @@ and open the template in the editor.
     <xs:element name="Accounts">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="account" type="Account"/>
+                <xs:element name="account" type="Account" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -21,12 +21,18 @@ and open the template in the editor.
         <xs:sequence>
             <xs:element name="username" type="xs:string"/>
             <xs:element name="password" type="password"/>
+            <xs:element name="role" type="Role"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:int" use="required"/>
     </xs:complexType>
     <xs:simpleType name="password">
         <xs:restriction base="xs:string">
-            
+            <xs:minLength value="8"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Role">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="Manager|Staff"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

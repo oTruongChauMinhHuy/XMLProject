@@ -11,107 +11,147 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Home Page</title>
-        <style>
-            body {
-                background-color: #eee;
-                margin: 0;
-            }
-            #topbar {
-                width: 100%;
-                height: 50px;
-                background-color: activeborder;
-                display: block;
-            }
-            #topbar .nav-logo {
-                width: 100px;
-                height: 100%;
-                background: #1E1E1E;
-                text-align: center;
-                display: inline-block;
-            }
-            #topbar .nav-user {
-                display: inline-block;
-                float: right;
-
-            }
-            .user-pro {
-                display: inline-block;
-                text-align: center;
-                height: 100%;
-                text-decoration: none;
-            }
-            .ava-img {
-                border-radius: 50%;
-            }
-            .user-name {
-                position: relative;
-                margin-top: 0;
-                color: #ffffff;
-                font-size: 25px;
-            }
-            #logo {
-                color: #ffffff;
-                width: 100%;
-                padding-top: 15px;
-                text-decoration: none;
-            }
-            #logo .logo-text {
-                font-size: 30px;
-            }
-            .container {
-                padding-right: 15px;
-                padding-left: 15px;
-                margin-right: auto;
-                margin-left: auto;
-            }
-            .login-form {
-                max-width: 330px;
-                padding: 15px;
-                margin: 0 auto;
-            }
-        </style>
     </head>
     <body>
-        <c:set var="context" value="${pageContext.request.contextPath}" />
         <c:set var="user" value="${sessionScope.USER}"/>
+        <jsp:include page="header.jsp"/>
         <c:if test="${not empty user}">
-            <div class="container">
-                <form action="" method="POST" class="login-form">
-                    <table>
-                        <tr>
-                            <td>Username: </td>
-                            <td><input type="text" name="txtUsername"/></td>
-                        </tr>
-                        <tr>
-                            <td>Password: </td>
-                            <td><input type="password" name="txtPassword"/></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="submit" name="btnAction" value="Login"/>
-                            </td>
-                            <td>
-                                <input type="reset" value="Reset"/>
-                            </td>
-                        </tr>
+            <div class="main-container col-lg-11">
+                <div>
+                    Tuyến: <select name="ddlBuses" id="ddlBuses" onchange="changeTrip()">
+                        <option value="1">Long Khánh - Sài Gòn</option>
+                        <option value="2">Sài Gòn - Long Khánh</option>
+                    </select>
+                    ---
+                    Chuyến: <select name="ddlTrip" id="ddlTrip" onchange="changeTrip()">
+                        <option value="06022015">06/02/2015</option>
+                        <option value="07022015">06/02/2015</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Thời gian</th>
+                                <th>Còn trống</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="warning" onclick="chooseTime('LK070220150700')" id="LK070220150700">
+                                <td>07:00</td>
+                                <td>06</td>
+                                <td>Sắp hết</td>
+                            </tr>
+                        </tbody>
                     </table>
-                </form>
+                </div>
+                <div class="col-lg-5">
+                    <table border="1" class="car table table-bordered">
+                        <form action="Checkout.jsp" name="checkout-form" method="GET" onsubmit="return validate()">
+                            <input id="form-Time" type="hidden" name="txtTime"/>
+                            <tr>
+                                <td colspan="2" class="disabled">0</td>
+                                <td class="disabled"></td>
+                                <td id="1" colspan="2" onclick="chooseSeat(1)">
+                                    1
+                                    <input type="checkbox" name="chkSeat" value="1" hidden="" id="seatNum-1"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="2" onclick="chooseSeat(2)" class="">
+                                    2
+                                    <input type="checkbox" name="chkSeat" value="2" hidden="" id="seatNum-2"/>
+                                </td>
+                                <td id="3" onclick="chooseSeat(3)" class="">3</td>
+                                <td class="disabled"></td>
+                                <td id="4" onclick="chooseSeat(4)" class="">4</td>
+                                <td id="5" onclick="chooseSeat(5)" class="">5</td>
+                            </tr>
+                            <tr>
+                                <td id="6" onclick="chooseSeat(6)" class="">6</td>
+                                <td id="7" onclick="chooseSeat(7)" class="">7</td>
+                                <td class="disabled"></td>
+                                <td id="8" onclick="chooseSeat(8)" class="">8</td>
+                                <td id="9" onclick="chooseSeat(9)" class="">9</td>
+                            </tr>
+                            <tr>
+                                <td id="10" onclick="chooseSeat(10)" class="">10</td>
+                                <td id="11" onclick="chooseSeat(11)" class="">11</td>
+                                <td class="disabled"></td>
+                                <td id="12" onclick="chooseSeat(12)" class="">12</td>
+                                <td id="13" onclick="chooseSeat(13)" class="">13</td>
+                            </tr>
+                            <tr>
+                                <td id="14" onclick="chooseSeat(14)" class="">14</td>
+                                <td id="15" onclick="chooseSeat(15)" class="">15</td>
+                                <td class="disabled"></td>
+                                <td id="16" onclick="chooseSeat(16)" class="">16</td>
+                                <td id="17" onclick="chooseSeat(17)" class="">17</td>
+                            </tr>
+                            <tr>
+                                <td id="18" onclick="chooseSeat(18)" class="">18</td>
+                                <td id="19" onclick="chooseSeat(19)" class="">19</td>
+                                <td class="disabled"></td>
+                                <td id="20" onclick="chooseSeat(20)" class="">20</td>
+                                <td id="21" onclick="chooseSeat(21)" class="">21</td>
+                            </tr>
+                            <tr>
+                                <td id="22" onclick="chooseSeat(22)" class="" colspan="2">22</td>
+                                <td id="23" onclick="chooseSeat(23)" class="">23</td>
+                                <td id="24" onclick="chooseSeat(24)" class="" colspan="2">24</td>
+                            </tr>
+                    </table>
+                    <input type="submit" value="Checkout" name="btnAction" class="btn btn-success"/>
+                    </form>
+                </div>
             </div>
         </c:if>
-        <c:if test="${empty user}">
-            <nav id="topbar">
-                <div class="nav-logo">
-                    <a id="logo" href="index.jsp">
-                        <span class="logo-text">CarTrip</span>
-                    </a>
-                </div>
-                <div class="nav-user">
-                    <a data-hover="dropdown" href="#" class="user-pro">
-                        <img src="${context}/images/48.jpg" alt="" class="ava-img"/>
-                        <span class="user-name">Robert John</span>
-                    </a>
-                </div>
-            </nav>
-        </c:if>
     </body>
+    <script type="text/javascript" src="/lib/jquery-1.8.0.custom.js"></script>
+    <script>
+                                    function changeTrip() {
+                                        var bus = document.getElementById("ddlBuses").value;
+                                        var trip = document.getElementById("ddlTrip").value;
+                                        var url = "?ddlBus=" + bus + "&ddlTrip=" + trip + "&btnAction=getTrip";
+//                                        $.ajax({
+//                                            url: url,
+//                                            dataType: 'text'
+//                                        }).done(function result(result) {
+//                                            alert(result);
+//                                        });
+
+                                    }
+                                    function chooseTime(timeId) {
+                                        document.getElementById("form-Time").value = timeId;
+                                    }
+                                    function chooseSeat(index) {
+                                        var checked = document.getElementById("seatNum-" + index).checked;
+                                        if (!checked) {
+                                            document.getElementById("seatNum-" + index).checked = true;
+                                            document.getElementById("" + index).classList.add("selected");
+                                        } else {
+                                            document.getElementById("seatNum-" + index).checked = false;
+                                            document.getElementById("" + index).classList.remove("selected");
+                                        }
+                                    }
+                                    function validate() {
+                                        var time = document.forms['checkout-form']['txtTime'].value;
+                                        var chkSeat = document.forms['checkout-form']['chkSeat'];
+                                        if (time === null || time === "") {
+                                            alert("Vui lòng chọn chuyến!");
+                                            return false;
+                                        }
+                                        var isValidate = false;
+                                        for (var i = 0; i < chkSeat.length; i++) {
+                                            if (chkSeat[i].checked) {
+                                                isValidate = true;
+                                            }
+                                        }
+                                        if (!isValidate) {
+                                            alert("Vui lòng chọn ghế!");
+                                        }
+                                        return isValidate;
+                                    }
+    </script>
 </html>

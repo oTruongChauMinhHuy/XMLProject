@@ -102,4 +102,9 @@ public class XMLUtilities {
         }
         return xmlCalendar;
     }
+     
+     public static Boolean checkLogin(String username, String password, String xmlPath) {
+         
+         return false;
+     }
 }

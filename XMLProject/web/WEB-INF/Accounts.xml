@@ -5,14 +5,17 @@
     xsi:schemaLocation='http://www.fpt.edu.vn/project/account Accounts.xsd'>
     <account id="1">
         <username>HuyTCM</username>
-        <password>1234</password>
+        <password>12341111</password>
+        <role>Manager</role>
     </account>
     <account id="2">
         <username>ThuyNTN</username>
-        <password></password>
+        <password>111111111</password>
+        <role>Staff</role>
     </account>
-    <account id="1">
-        <username>HuyTCM</username>
-        <password>1234</password>
+    <account id="3">
+        <username>HuyTCM1</username>
+        <password>12341111111</password>
+        <role>Staff</role>
     </account>
 </Accounts>

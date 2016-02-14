@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript">
+            function setData() {
+                var currentDate = new Date();
+
+                var ddlDate = document.getElementById("ddlDate");
+                for (var i = 0; i < 3; i++) {
+                    var optionDate = document.createElement("option");
+                    var dateText = currentDate.getFullYear() + '-' +
+                            (currentDate.getMonth() + 1) + '-' +
+                            currentDate.getDate();
+                    optionDate.setAttribute('value', dateText);
+                    var dateTextNode = document.createTextNode(dateText);
+                    optionDate.appendChild(dateTextNode);
+                    currentDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000);
+
+                    ddlDate.appendChild(optionDate);
+                }
+            }
+            function getCars() {
+                
+            }
+        </script>
+    </head>
+    <body onload="setData()">
+        <div>
+            <form action="" method="GET">
+                Bus: <select name="ddlBus">
+                    <option value="LK">Long Khánh</option>
+                    <option value="SG">Sài Gòn</option>
+                </select><br>
+                Date: <select name="ddlDate" id="ddlDate">
+                </select>
+                Hour: <input type="text" name="txtHour"/> Min: <input type="text" name="txtMin"/>
+            </form>
+        </div>
+    </body>
+</html>

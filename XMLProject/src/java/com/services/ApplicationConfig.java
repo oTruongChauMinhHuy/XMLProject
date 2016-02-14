@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.services.AccountService.class);
+        resources.add(com.services.XMLServices.class);
     }
     
 }

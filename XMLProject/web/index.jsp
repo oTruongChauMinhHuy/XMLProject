@@ -107,51 +107,52 @@
                 </div>
             </div>
         </c:if>
-    </body>
-    <script type="text/javascript" src="/lib/jquery-1.8.0.custom.js"></script>
-    <script>
-                                    function changeTrip() {
-                                        var bus = document.getElementById("ddlBuses").value;
-                                        var trip = document.getElementById("ddlTrip").value;
-                                        var url = "?ddlBus=" + bus + "&ddlTrip=" + trip + "&btnAction=getTrip";
-//                                        $.ajax({
-//                                            url: url,
-//                                            dataType: 'text'
-//                                        }).done(function result(result) {
-//                                            alert(result);
-//                                        });
+        <script>
+            function changeTrip() {
+                var bus = document.getElementById("ddlBuses").value;
+                var trip = document.getElementById("ddlTrip").value;
+                var url = "?ddlBus=" + bus + "&ddlTrip=" + trip + "&btnAction=getTrip";
+    //                                        $.ajax({
+    //                                            url: url,
+    //                                            dataType: 'text'
+    //                                        }).done(function result(result) {
+    //                                            alert(result);
+    //                                        });
 
-                                    }
-                                    function chooseTime(timeId) {
-                                        document.getElementById("form-Time").value = timeId;
-                                    }
-                                    function chooseSeat(index) {
-                                        var checked = document.getElementById("seatNum-" + index).checked;
-                                        if (!checked) {
-                                            document.getElementById("seatNum-" + index).checked = true;
-                                            document.getElementById("" + index).classList.add("selected");
-                                        } else {
-                                            document.getElementById("seatNum-" + index).checked = false;
-                                            document.getElementById("" + index).classList.remove("selected");
-                                        }
-                                    }
-                                    function validate() {
-                                        var time = document.forms['checkout-form']['txtTime'].value;
-                                        var chkSeat = document.forms['checkout-form']['chkSeat'];
-                                        if (time === null || time === "") {
-                                            alert("Vui lòng chọn chuyến!");
-                                            return false;
-                                        }
-                                        var isValidate = false;
-                                        for (var i = 0; i < chkSeat.length; i++) {
-                                            if (chkSeat[i].checked) {
-                                                isValidate = true;
-                                            }
-                                        }
-                                        if (!isValidate) {
-                                            alert("Vui lòng chọn ghế!");
-                                        }
-                                        return isValidate;
-                                    }
-    </script>
+            }
+            function chooseTime(timeId) {
+                document.getElementById("form-Time").value = timeId;
+                document.getElementById("" + timeId).className = '';
+                document.getElementById("" + timeId).classList.add("info");
+            }
+            function chooseSeat(index) {
+                var checked = document.getElementById("seatNum-" + index).checked;
+                if (!checked) {
+                    document.getElementById("seatNum-" + index).checked = true;
+                    document.getElementById("" + index).classList.add("selected");
+                } else {
+                    document.getElementById("seatNum-" + index).checked = false;
+                    document.getElementById("" + index).classList.remove("selected");
+                }
+            }
+            function validate() {
+                var time = document.forms['checkout-form']['txtTime'].value;
+                var chkSeat = document.forms['checkout-form']['chkSeat'];
+                if (time === null || time === "") {
+                    alert("Vui lòng chọn chuyến!");
+                    return false;
+                }
+                var isValidate = false;
+                for (var i = 0; i < chkSeat.length; i++) {
+                    if (chkSeat[i].checked) {
+                        isValidate = true;
+                    }
+                }
+                if (!isValidate) {
+                    alert("Vui lòng chọn ghế!");
+                }
+                return isValidate;
+            }
+        </script>
+    </body>
 </html>

@@ -7,7 +7,6 @@ package com.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +15,6 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import org.glassfish.jersey.client.ClientConfig;
-import org.jvnet.hk2.component.MultiMap;
 
 /**
  *
@@ -43,7 +38,7 @@ public class LoginServlet extends HttpServlet {
             String username = request.getParameter("txtUsername");
             String password = request.getParameter("txtPassword");
 
-            String url = "http://localhost:8084/webresources/generic";
+            String url = "http://localhost:8080/webresources/acc";
             Client client = ClientBuilder.newClient();
             WebTarget target = client.target(url);
 

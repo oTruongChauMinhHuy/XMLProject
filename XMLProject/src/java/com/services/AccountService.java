@@ -21,7 +21,7 @@ import javax.ws.rs.QueryParam;
  *
  * @author HuyTCM - Trương Châu Minh Huy
  */
-@Path("generic")
+@Path("acc")
 public class AccountService {
 
     @Context

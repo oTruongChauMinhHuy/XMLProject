@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tri="http://www.fpt.edu.vn/project/trip"
+           xmlns:car="http://www.fpt.edu.vn/project/car"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.fpt.edu.vn/project/trip">
+    <xs:import namespace="http://www.fpt.edu.vn/project/car" schemaLocation="Car.xsd"/>
+    <xs:element name="Trip">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Bus" type="tri:Bus"/>
+                <xs:element name="Time" type="xs:dateTime"/>
+                <xs:element ref="car:Car"/>
+                <xs:element name="Seats">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Seat" type="tri:Seat" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="Bus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LK"/>
+            <xs:enumeration value="SG"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="Seat">
+        <xs:attribute name="id" use="required"/>
+        <xs:attribute name="available">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="true"/>
+                    <xs:enumeration value="false"/>
+                    <xs:enumeration value="pending"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+</xs:schema>

@@ -14,16 +14,14 @@ public class AccountDTO {
     private String id;
     private String username;
     private String password;
-    private String role;
 
     public AccountDTO() {
     }
 
-    public AccountDTO(String id, String username, String password, String role) {
+    public AccountDTO(String id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.role = role;
     }
 
     public String getId() {
@@ -49,13 +47,4 @@ public class AccountDTO {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-    
 }

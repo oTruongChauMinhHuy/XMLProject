@@ -43,22 +43,22 @@
                     var tr = document.createElement('tr');
                     // Table data No.
                     var tdNo = document.createElement('td');
-                    var tdNoText = document.createTextNode(i+1);
+                    var tdNoText = document.createTextNode(i + 1);
                     tdNo.appendChild(tdNoText);
                     tr.appendChild(tdNo);
-                    
+
                     // Table data seat's number
                     var tdSeatNum = document.createElement('td');
                     var tdSeatNumText = document.createTextNode(seats[i]);
                     tdSeatNum.appendChild(tdSeatNumText);
                     tr.appendChild(tdSeatNum);
-                    
+
                     // Table data unit price
                     var tdUnitPrice = document.createElement('td');
                     var tdUnitPriceText = document.createTextNode('50000');
                     tdUnitPrice.appendChild(tdUnitPriceText);
                     tr.appendChild(tdUnitPrice);
-                    
+
                     // Table data check box
                     var tdCheckBox = document.createElement('td');
                     var inputChk = document.createElement('input');
@@ -68,40 +68,56 @@
                     inputChk.setAttribute('checked', true);
                     tdCheckBox.appendChild(inputChk);
                     tr.appendChild(tdCheckBox);
-                    
+
                     tableBody.appendChild(tr);
-                    
-                    var countDown = 30;
-                    setInterval(function () {
-                        if (countDown > 0) {
-                            countDown--;
-                            document.getElementById("countDown").innerHTML = countDown;
-                        }
-                    }, 1000);
+
+                    countDown(30);
                 }
+            }
+            function countDown(i) {
+                var num = setInterval(function() {
+                    document.getElementById("countDown").innerHTML = i;
+                    if (i-- <= 0) {
+                        clearInterval(num);
+                        alert("Hết thời gian!\n Xin vui lòng chọn ghế lại!");
+                        window.location.href = "index.jsp";
+                    }
+                }, 1000);
+            }
+            function validate() {
+                var time = document.getElementById("countDown").innerHTML;
+                if (isNaN(time) || time <= 0) {
+                    alert("Hết thời gian thanh toán, vui lòng thử lại!");
+                    window.location.href = "index.jsp";
+                    return false;
+                }
+                return true;
             }
         </script>
     </head>
     <body onload="getData()">
         <jsp:include page="header.jsp"/>
-        <div class="main-container col-lg-11">
-            <form id="form-checkout" action="" method="GET">
-                <p id="countDown" style="float: right;"></p>
-                <p id="tripDecs"/>
-                <table border="1" class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Số ghế</th>
-                            <th>Đơn giá</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                    </tbody>
-                </table>
-                <input type="submit" value="Paid" name="btnAction" class="btn btn-primary" style="float: right; width: 100px;"/>
-            </form>
-        </div>
-    </body>
+    <c:set var="user" value="${sessionScope.USER}"/>
+    <div class="main-container col-lg-11">
+        <form id="form-checkout" action="" method="GET" onsubmit="return validate();">
+            <div class="countDown">
+                <p id="countDown" style="float: right; padding-right: 5px;"></p>
+            </div>
+            <p id="tripDecs"/>
+            <table border="1" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Số ghế</th>
+                        <th>Đơn giá</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+            <input type="submit" value="Paid" name="btnAction" class="btn btn-primary" style="float: right; width: 100px;"/>
+        </form>
+    </div>
+</body>
 </html>

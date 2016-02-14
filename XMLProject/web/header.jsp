@@ -6,8 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<link rel="stylesheet" type="text/css" href="${context}/lib/bootstrap.min.css" />
 <c:set var="context" value="${pageContext.request.contextPath}" />
+<link rel="stylesheet" type="text/css" href="${context}/lib/bootstrap.min.css" />
 <c:set var="user" value="${sessionScope.USER}"/>
 <c:set var="message" value="${sessionScope.msg}"/>
 <c:if test="${empty user}">

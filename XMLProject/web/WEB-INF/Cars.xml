@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns2:Car xmlns="http://www.fpt.edu.vn/project/driver" xmlns:ns2="http://www.fpt.edu.vn/project/car" numberPlate="123123">
-    <Driver id="123">
-        <name>Abc</name>
-        <DOB>2016-01-18+07:00</DOB>
-        <salary>10</salary>
-    </Driver>
-    <ns2:numberOfSeats>23</ns2:numberOfSeats>
-</ns2:Car>

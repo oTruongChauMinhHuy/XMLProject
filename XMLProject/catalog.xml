@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/Admin/Desktop/XMLProject/XMLProject/web/WEB-INF/Driver.xsd" uri="src/conf/xml-resources/jaxb/Trip/Driver.xsd"/>
+    <system systemId="file:/C:/Users/Admin/Desktop/XMLProject/XMLProject/web/WEB-INF/Trip.xsd" uri="src/conf/xml-resources/jaxb/Trip/Trip.xsd"/>
+    <system systemId="file:/C:/Users/Admin/Desktop/XMLProject/XMLProject/web/WEB-INF/Car.xsd" uri="src/conf/xml-resources/jaxb/Trip/Car.xsd"/>
+</catalog>

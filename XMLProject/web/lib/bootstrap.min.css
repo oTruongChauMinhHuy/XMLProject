@@ -5062,3 +5062,14 @@ body {
 .car td.selected {
     background-color: #ccffcc !important;
 }
+.countDown {
+    background-color: red;
+    border-radius: 50%;
+    border: 2px solid;
+    border-color: red;
+    width: 50px;
+    height: 50px;
+    float: right;
+    font-size: 33px;
+}
+

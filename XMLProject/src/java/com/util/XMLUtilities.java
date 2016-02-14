@@ -5,16 +5,20 @@
  */
 package com.util;
 
+import com.DTO.CarDTOList;
 import com.sun.codemodel.JCodeModel;
 import com.sun.tools.xjc.api.ErrorListener;
 import com.sun.tools.xjc.api.S2JJAXBModel;
 import com.sun.tools.xjc.api.SchemaCompiler;
 import com.sun.tools.xjc.api.XJC;
-import generate.jaxb.Car;
 import java.io.File;
+import java.io.StringWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -28,6 +32,7 @@ import org.xml.sax.SAXParseException;
  * @author HuyTCM1
  */
 public class XMLUtilities {
+
     public static void XJCGenerateJavaObj(String output, String fileSchemaURI, String packageName) {
         try {
             SchemaCompiler schemaCompiler = XJC.createSchemaCompiler();
@@ -65,46 +70,59 @@ public class XMLUtilities {
             System.out.println("XMLUtilities - XJCGenerateJavaObj: " + e.getMessage());
         }
     }
-    
+
     public static void JAXBUnmarshalling(Class insClass, String fileSource) {
         try {
             JAXBContext jAXBContext = JAXBContext.newInstance(insClass);
             Unmarshaller unmarshaller = jAXBContext.createUnmarshaller();
-            
+
             File file = new File(fileSource);
-            Car car = (Car)unmarshaller.unmarshal(file);
-            
-            System.out.println("NumberPlate: " + car.getNumberPlate());
-            System.out.println("NumberOfSeats: " + car.getNumberOfSeats());
+            //Car car = (Car) unmarshaller.unmarshal(file);
+
+//            System.out.println("NumberPlate: " + car.getNumberPlate());
+//            System.out.println("NumberOfSeats: " + car.getNumberOfSeats());
         } catch (Exception e) {
         }
     }
-    
+
     public static void JAXBMarshalling(Object object, String output) {
         try {
             JAXBContext jAXBContext = JAXBContext.newInstance(object.getClass());
             Marshaller marshaller = jAXBContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            
+
             marshaller.marshal(object, new File(output));
         } catch (Exception e) {
         }
     }
-    
-     public static XMLGregorianCalendar toXMLGregorianCalendar(Date date){
-        GregorianCalendar gCalendar = new GregorianCalendar();
-        gCalendar.setTime(date);
+
+    public static String marshallToString(CarDTOList object) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(CarDTOList.class);
+            Marshaller mar = context.createMarshaller();
+            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            
+            StringWriter sw = new StringWriter();
+            mar.marshal(object, sw);
+            
+            return sw.toString();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static XMLGregorianCalendar toXMLGregorianCalendar(String date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("CCYY-MM-DD");
         XMLGregorianCalendar xmlCalendar = null;
         try {
+            GregorianCalendar gCalendar = new GregorianCalendar();
+            gCalendar.setTime(dateFormat.parse(date));
             xmlCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(gCalendar);
-        } catch (DatatypeConfigurationException ex) {
+        } catch (ParseException | DatatypeConfigurationException e) {
+            e.printStackTrace();
         }
         return xmlCalendar;
     }
-     
-     public static Boolean checkLogin(String username, String password, String xmlPath) {
-         
-         return false;
-     }
 }

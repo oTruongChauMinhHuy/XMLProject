@@ -6,10 +6,14 @@
 package com.listener;
 
 import com.DTO.CarDTOList;
+import com.DTO.TripDTOList;
 import com.util.DBUtilities;
 import com.util.XMLUtilities;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
+import javax.xml.bind.JAXBException;
 
 /**
  * Web application lifecycle listener.
@@ -26,7 +30,14 @@ public class RequestServletListener implements ServletRequestListener {
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
         CarDTOList cars = DBUtilities.getAllCars();
-        String xml = XMLUtilities.marshallToString(cars);
-        sre.getServletRequest().setAttribute("CARS", xml);
+        String xmlCars = null;
+        try {
+            xmlCars = XMLUtilities.marshallToString(cars);
+        } catch (JAXBException ex) {
+            Logger.getLogger(RequestServletListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (xmlCars != null) {
+            sre.getServletRequest().setAttribute("CARS", xmlCars);
+        }
     }
 }

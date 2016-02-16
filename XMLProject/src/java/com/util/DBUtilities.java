@@ -7,6 +7,13 @@ package com.util;
 
 import com.DTO.CarDTO;
 import com.DTO.CarDTOList;
+import com.DTO.SeatDTO;
+import com.DTO.SeatDTOList;
+import com.DTO.TripDTO;
+import com.DTO.TripDTOList;
+import generate.jaxb.Bus;
+import generate.jaxb.Car;
+import generate.jaxb.Trip;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -73,7 +80,7 @@ public class DBUtilities {
                 String numberPlate = rs.getString("numberPlate");
                 CarDTO car = new CarDTO();
                 car.setNumberPlate(numberPlate);
-                car.setDriver("a");
+                //car.setDriver("a");
                 car.setNumberOfSeats(Integer.valueOf(24));
                 cars.getCar().add(car);
             }
@@ -91,6 +98,58 @@ public class DBUtilities {
                     con.close();
                 }
             } catch (Exception e) {
+            }
+        }
+        return null;
+    }
+    public static TripDTOList getAllTrips() {
+        Connection con = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            con = makeConnection();
+            String sql = "SELECT * FROM Trips WHERE isAvailable = 1";
+            statement = con.prepareStatement(sql);
+            rs = statement.executeQuery();
+            
+            TripDTOList trips = new TripDTOList();
+            while (rs.next()) {                
+                String tripID = rs.getString("tripID");
+                String bus = rs.getString("bus");
+                TripDTO trip = new TripDTO();
+                trip.setBus(rs.getString("bus"));
+                trip.setDate(rs.getString("date"));
+                trip.setTime(rs.getString("time"));
+                CarDTO car = new CarDTO(rs.getString("numberPlate"));
+                trip.setCar(car);
+                //initial seat
+                SeatDTOList seats = new SeatDTOList();
+                for (int i = 1; i <= car.getNumberOfSeats(); i++) {
+                    SeatDTO seat = new SeatDTO();
+                    seat.setId(String.valueOf(i));
+                    seats.getSeats().add(seat);
+                }
+                trip.setSeats(seats);
+                
+                //add trip
+                trips.getTrips().add(trip);
+            }
+            return trips;
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
         return null;

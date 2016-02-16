@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cars>
+    <car numberPlate="60B2-134.18">
+        <numberOfSeats>24</numberOfSeats>
+    </car>
+    <car numberPlate="60B2-134.29">
+        <numberOfSeats>24</numberOfSeats>
+    </car>
+    <car numberPlate="60B2-134.30">
+        <numberOfSeats>24</numberOfSeats>
+    </car>
+</cars>

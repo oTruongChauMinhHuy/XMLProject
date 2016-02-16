@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author HuyTCM - Trương Châu Minh Huy
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Car", propOrder = {
+@XmlType(name = "car", propOrder = {
     "driver",
     "numberOfSeats"
 })
@@ -33,6 +33,11 @@ public class CarDTO implements Serializable {
     public CarDTO() {
     }
 
+    public CarDTO(String numberPlate) {
+        this.numberPlate = numberPlate;
+        this.numberOfSeats = 24;
+    }
+    
     public CarDTO(String numberPlate, String driver, Integer numberOfSeats) {
         this.numberPlate = numberPlate;
         this.driver = driver;

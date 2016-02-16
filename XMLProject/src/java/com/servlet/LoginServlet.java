@@ -7,6 +7,7 @@ package com.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,8 @@ import javax.ws.rs.client.WebTarget;
  * @author HuyTCM1
  */
 public class LoginServlet extends HttpServlet {
-
+    private final String homePage = "index.jsp";
+    private final String loginPage = "Login.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,13 +48,15 @@ public class LoginServlet extends HttpServlet {
                     .queryParam("password", password).request().get(String.class);
             boolean result = Boolean.parseBoolean(res);
             HttpSession session = request.getSession();
-            session.removeAttribute("msg");
+            String returnUrl = loginPage;
             if (result) {
+                returnUrl = homePage;
                 session.setAttribute("USER", username);
             } else {
-                session.setAttribute("msg", "Invalid username or password!!!");
+                request.setAttribute("msg", "Invalid username or password!!!");
             }
-            response.sendRedirect("index.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher(returnUrl);
+            rd.forward(request, response);
         }
     }
 

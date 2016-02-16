@@ -5,17 +5,16 @@
  */
 package com.util;
 
-import com.DTO.CarDTOList;
 import com.sun.codemodel.JCodeModel;
 import com.sun.tools.xjc.api.ErrorListener;
 import com.sun.tools.xjc.api.S2JJAXBModel;
 import com.sun.tools.xjc.api.SchemaCompiler;
 import com.sun.tools.xjc.api.XJC;
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -24,7 +23,22 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -33,96 +47,101 @@ import org.xml.sax.SAXParseException;
  */
 public class XMLUtilities {
 
-    public static void XJCGenerateJavaObj(String output, String fileSchemaURI, String packageName) {
-        try {
-            SchemaCompiler schemaCompiler = XJC.createSchemaCompiler();
-            schemaCompiler.setErrorListener(new ErrorListener() {
+    public static void XJCGenerateJavaObj(String output, String fileSchemaURI,
+            String packageName)
+            throws IOException {
+        SchemaCompiler schemaCompiler = XJC.createSchemaCompiler();
+        schemaCompiler.setErrorListener(new ErrorListener() {
 
-                @Override
-                public void error(SAXParseException saxpe) {
-                    System.out.println("error: " + saxpe.getMessage());
-                }
+            @Override
+            public void error(SAXParseException saxpe) {
+                System.out.println("error: " + saxpe.getMessage());
+            }
 
-                @Override
-                public void fatalError(SAXParseException saxpe) {
-                    System.out.println("fatal: " + saxpe.getMessage());
-                }
+            @Override
+            public void fatalError(SAXParseException saxpe) {
+                System.out.println("fatal: " + saxpe.getMessage());
+            }
 
-                @Override
-                public void warning(SAXParseException saxpe) {
-                    System.out.println("warning: " + saxpe.getMessage());
-                }
+            @Override
+            public void warning(SAXParseException saxpe) {
+                System.out.println("warning: " + saxpe.getMessage());
+            }
 
-                @Override
-                public void info(SAXParseException saxpe) {
-                    System.out.println("info: " + saxpe.getMessage());
-                }
-            });
-            schemaCompiler.forcePackageName(packageName);
-            File schema = new File(fileSchemaURI);
-            InputSource inputSource = new InputSource(schema.toURI().toString());
-            schemaCompiler.parseSchema(inputSource);
-            S2JJAXBModel s2JJAXBModel = schemaCompiler.bind();
-            JCodeModel jCodeModel = s2JJAXBModel.generateCode(null, null);
-            jCodeModel.build(new File(output));
-            System.out.println("Finished!");
-        } catch (Exception e) {
-            System.out.println("XMLUtilities - XJCGenerateJavaObj: " + e.getMessage());
-        }
+            @Override
+            public void info(SAXParseException saxpe) {
+                System.out.println("info: " + saxpe.getMessage());
+            }
+        });
+        schemaCompiler.forcePackageName(packageName);
+        File schema = new File(fileSchemaURI);
+        InputSource inputSource = new InputSource(schema.toURI().toString());
+        schemaCompiler.parseSchema(inputSource);
+        S2JJAXBModel s2JJAXBModel = schemaCompiler.bind();
+        JCodeModel jCodeModel = s2JJAXBModel.generateCode(null, null);
+        jCodeModel.build(new File(output));
+        System.out.println("Finished!");
     }
 
-    public static void JAXBUnmarshalling(Class insClass, String fileSource) {
-        try {
-            JAXBContext jAXBContext = JAXBContext.newInstance(insClass);
-            Unmarshaller unmarshaller = jAXBContext.createUnmarshaller();
+    public static <T> Object JAXBUnmarshalling(Class insClass, String fileSource)
+            throws JAXBException {
+        JAXBContext jAXBContext = JAXBContext.newInstance(insClass);
+        Unmarshaller unmarshaller = jAXBContext.createUnmarshaller();
 
-            File file = new File(fileSource);
-            //Car car = (Car) unmarshaller.unmarshal(file);
-
-//            System.out.println("NumberPlate: " + car.getNumberPlate());
-//            System.out.println("NumberOfSeats: " + car.getNumberOfSeats());
-        } catch (Exception e) {
-        }
+        File file = new File(fileSource);
+        Object object = unmarshaller.unmarshal(file);
+        return object;
     }
 
-    public static void JAXBMarshalling(Object object, String output) {
-        try {
-            JAXBContext jAXBContext = JAXBContext.newInstance(object.getClass());
-            Marshaller marshaller = jAXBContext.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    public static <T> void JAXBMarshalling(T object, File output)
+            throws JAXBException {
+        JAXBContext jAXBContext = JAXBContext.newInstance(object.getClass());
+        Marshaller marshaller = jAXBContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-            marshaller.marshal(object, new File(output));
-        } catch (Exception e) {
-        }
+        marshaller.marshal(object, output);
     }
 
-    public static String marshallToString(CarDTOList object) {
-        try {
-            JAXBContext context = JAXBContext.newInstance(CarDTOList.class);
-            Marshaller mar = context.createMarshaller();
-            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-            
-            StringWriter sw = new StringWriter();
-            mar.marshal(object, sw);
-            
-            return sw.toString();
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static <T> String marshallToString(T object)
+            throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(object.getClass());
+        Marshaller mar = context.createMarshaller();
+        mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        mar.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+
+        StringWriter sw = new StringWriter();
+        mar.marshal(object, sw);
+
+        return sw.toString();
     }
-    public static XMLGregorianCalendar toXMLGregorianCalendar(String date) {
+
+    public static XMLGregorianCalendar toXMLGregorianCalendar(String date)
+            throws ParseException, DatatypeConfigurationException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("CCYY-MM-DD");
-        XMLGregorianCalendar xmlCalendar = null;
-        try {
-            GregorianCalendar gCalendar = new GregorianCalendar();
-            gCalendar.setTime(dateFormat.parse(date));
-            xmlCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(gCalendar);
-        } catch (ParseException | DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
-        return xmlCalendar;
+        GregorianCalendar gCalendar = new GregorianCalendar();
+        gCalendar.setTime(dateFormat.parse(date));
+        return DatatypeFactory.newInstance().newXMLGregorianCalendar(gCalendar);
+    }
+
+    public static Document parseFileToDOM(File xmlFile)
+            throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(xmlFile);
+        return doc;
+    }
+
+    public static void transformDOMToFile(Node node, String filePath)
+            throws TransformerConfigurationException, TransformerException {
+        TransformerFactory factory = TransformerFactory.newInstance();
+        Transformer transformer = factory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+        Source source = new DOMSource(node);
+        File file = new File(filePath);
+        Result result = new StreamResult(file);
+
+        transformer.transform(source, result);
     }
 }

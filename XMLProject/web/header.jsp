@@ -9,33 +9,9 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <link rel="stylesheet" type="text/css" href="${context}/lib/bootstrap.min.css" />
 <c:set var="user" value="${sessionScope.USER}"/>
-<c:set var="message" value="${sessionScope.msg}"/>
+
 <c:if test="${empty user}">
-    <div class="form-container">
-        <form action="ControllerServlet" method="POST" class="login-form">
-            <c:if test="${not empty message}">
-                <font color="red">${message}</font>
-            </c:if>
-            <table>
-                <tr>
-                    <td>Username: </td>
-                    <td><input type="text" name="txtUsername"/></td>
-                </tr>
-                <tr>
-                    <td>Password: </td>
-                    <td><input type="password" name="txtPassword"/></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="submit" name="btnAction" value="Login"/>
-                    </td>
-                    <td>
-                        <input type="reset" value="Reset"/>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
+    <jsp:forward page="${context}/Login.jsp"/>
 </c:if>
 <c:if test="${not empty user}">
     <nav id="topbar">

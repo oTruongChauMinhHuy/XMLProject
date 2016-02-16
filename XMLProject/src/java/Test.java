@@ -21,7 +21,7 @@ public class Test {
         String fileSchemaURI = "web/WEB-INF/Car.xsd";
         String packageName = "generate.jaxb";
         
-        XMLUtilities.XJCGenerateJavaObj(output, fileSchemaURI, packageName);
+        //XMLUtilities.XJCGenerateJavaObj(output, fileSchemaURI, packageName);
         
 //        XMLUtilities.JAXBUnmarshalling(Car.class, "web/WEB-INF/Car.xml");
 //        

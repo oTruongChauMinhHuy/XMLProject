@@ -38,28 +38,28 @@ public class XMLServices {
     @Path("/createTrip")
     @GET
     @Produces("text/plain")
-    public String checkLogin(@QueryParam("bus") String bus,
+    public String createTrip(@QueryParam("bus") String bus,
             @QueryParam("date") String date,
             @QueryParam("time") String time,
             @QueryParam("numberPlate") String numberPlate,
             @QueryParam("driver") String driver) {
-        Trip trip = new Trip();
-        switch (bus) {
-            case "LK":
-                trip.setBus(Bus.LK);
-                break;
-            case "SG":
-                trip.setBus(Bus.SG);
-                break;
-        }
-        String dateTime = date + "T" + time;
-        trip.setTime(XMLUtilities.toXMLGregorianCalendar(dateTime));
-        Car car = new Car();
-        car.setNumberPlate(numberPlate);
-        car.setDriver(driver);
-        trip.setCar(car);
-        
-        XMLUtilities.JAXBMarshalling(trip, null);
+//        Trip trip = new Trip();
+//        switch (bus) {
+//            case "LK":
+//                trip.setBus(Bus.LK);
+//                break;
+//            case "SG":
+//                trip.setBus(Bus.SG);
+//                break;
+//        }
+//        String dateTime = date + "T" + time;
+//        trip.setTime(XMLUtilities.toXMLGregorianCalendar(dateTime));
+//        Car car = new Car();
+//        car.setNumberPlate(numberPlate);
+//        car.setDriver(driver);
+//        trip.setCar(car);
+//        
+//        XMLUtilities.JAXBMarshalling(trip, null);
         return "false";
     }
 //    @Path("/getCars")

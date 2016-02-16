@@ -5,12 +5,12 @@
  */
 package com.util;
 
+import com.DTO.TripDTO;
 import com.DTO.TripDTOList;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
@@ -22,14 +22,15 @@ public class CommonUtil {
     public static void updateTripsFile(String filePath)
             throws JAXBException, ParserConfigurationException, SAXException, IOException {
         File file = new File(filePath);
-        TripDTOList trips = DBUtilities.getAllTrips();
+        TripDTOList newTrips = DBUtilities.getAllTrips();
         if (!file.exists()) {
-            XMLUtilities.JAXBMarshalling(trips, file);
+            XMLUtilities.JAXBMarshalling(newTrips, file);
         } else {
-            Document doc = XMLUtilities.parseFileToDOM(file);
-            if (doc != null) {
-
+            TripDTOList trips = (TripDTOList)XMLUtilities.JAXBUnmarshalling(TripDTOList.class, filePath);
+            for (TripDTO trip : newTrips.getTrips()) {
+                trips.getTrips().add(trip);
             }
+            XMLUtilities.JAXBMarshalling(trips, file);
         }
     }
 }

@@ -29,6 +29,8 @@ public class TripDTO {
 
     @XmlAttribute(required = true)
     private String id;
+    @XmlAttribute(required = true)
+    private String status;
     @XmlElement(required = true)
     private String bus;
     @XmlElement(required = true)
@@ -49,6 +51,14 @@ public class TripDTO {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getBus() {

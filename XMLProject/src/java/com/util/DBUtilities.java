@@ -11,14 +11,13 @@ import com.DTO.SeatDTO;
 import com.DTO.SeatDTOList;
 import com.DTO.TripDTO;
 import com.DTO.TripDTOList;
-import generate.jaxb.Bus;
-import generate.jaxb.Car;
-import generate.jaxb.Trip;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,8 +46,8 @@ public class DBUtilities {
             if (rs.next()) {
                 return true;
             }
-        } catch (Exception e) {
-            System.out.println("DBUtilities: " + e.getMessage());
+        } catch (ClassNotFoundException | SQLException e) {
+            Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (rs != null) {
@@ -60,7 +59,8 @@ public class DBUtilities {
                 if (con != null) {
                     con.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
+                Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         return false;
@@ -78,14 +78,12 @@ public class DBUtilities {
             CarDTOList cars = new CarDTOList();
             while (rs.next()) {
                 String numberPlate = rs.getString("numberPlate");
-                CarDTO car = new CarDTO();
-                car.setNumberPlate(numberPlate);
-                //car.setDriver("a");
-                car.setNumberOfSeats(Integer.valueOf(24));
+                CarDTO car = new CarDTO(numberPlate);
                 cars.getCar().add(car);
             }
             return cars;
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
+            Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (rs != null) {
@@ -97,7 +95,8 @@ public class DBUtilities {
                 if (con != null) {
                     con.close();
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
+                Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         return null;
@@ -115,8 +114,8 @@ public class DBUtilities {
             TripDTOList trips = new TripDTOList();
             while (rs.next()) {                
                 String tripID = rs.getString("tripID");
-                String bus = rs.getString("bus");
                 TripDTO trip = new TripDTO();
+                trip.setId(tripID);
                 trip.setBus(rs.getString("bus"));
                 trip.setDate(rs.getString("date"));
                 trip.setTime(rs.getString("time"));
@@ -136,7 +135,7 @@ public class DBUtilities {
             }
             return trips;
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (rs != null) {
@@ -149,7 +148,7 @@ public class DBUtilities {
                     con.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
             }
         }
         return null;

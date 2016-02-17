@@ -52,7 +52,7 @@ public class TripXMLCommonUtil {
         XPathFactory xPathFactory = XPathFactory.newInstance();
         XPath xPath = xPathFactory.newXPath();
 
-        String expression = "/trips/trip[@id = " + tripID + "]";
+        String expression = "/trips/trip[@id = '" + tripID + "']";
         try {
             Node node = (Node) xPath.evaluate(expression, document, XPathConstants.NODE);
             node.getAttributes().getNamedItem("isAvailable").setNodeValue(status);
@@ -70,7 +70,7 @@ public class TripXMLCommonUtil {
         XPathFactory xPathFactory = XPathFactory.newInstance();
         XPath xPath = xPathFactory.newXPath();
 
-        String expression = "/trips/trip[@id = " + tripID + "]/seats/seat[@id = " + seatID + "]";
+        String expression = "/trips/trip[@id = '" + tripID + "']/seats/seat[@id = '" + seatID + "']";
         try {
             Node node = (Node) xPath.evaluate(expression, document, XPathConstants.NODE);
             node.getAttributes().getNamedItem("available").setNodeValue(status);

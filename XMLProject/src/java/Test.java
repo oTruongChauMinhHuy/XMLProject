@@ -30,43 +30,42 @@ public class Test {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws JAXBException, ParserConfigurationException, SAXException, IOException, TransformerException, ParseException, DatatypeConfigurationException {
-        String output = "src/java/";
-        String fileSchemaURI = "web/WEB-INF/Trip.xsd";
-        String packageName = "com.DTO";
+//        String output = "src/java/";
+//        String fileSchemaURI = "web/WEB-INF/Trip.xsd";
+//        String packageName = "com.DTO";
+        
+        TripXMLCommonUtil.updateTripStatus("LK070220150700", "false");
+        TripXMLCommonUtil.updateSeatStatus("LK070220150700", "1", "pending");
 
-        //XMLUtilities.XJCGenerateJavaObj(output, fileSchemaURI, packageName);
-//        XMLUtilities.JAXBUnmarshalling(Car.class, "web/WEB-INF/Car.xml");
-
-//        
 //        XMLUtilities.JAXBMarshalling(car, "web/WEB-INF/Cars.xml");
-        TripDTOList trips = new TripDTOList();
-        for (int i = 0; i < 3; i++) {
-            String tripID = "LK07022015070" + i;
-            Trip trip = new Trip();
-            trip.setId(tripID);
-            String bus = "LK";
-            trip.setBus(Bus.valueOf(bus));
-            String date = "2015/02/16";
-            trip.setDate(XMLUtilities.toXMLGregorianDate(date));
-            String time = "08:00:00";
-            trip.setTime(XMLUtilities.toXMLGregorianTime(time));
-            Car car = new Car();
-            car.setNumberPlate("60B2-134.30");
-            trip.setCar(car);
-            Trip.Seats seats = new Trip.Seats();
-            //initial seat
-            for (int j = 1; j <= car.getNumberOfSeats(); j++) {
-                Seat seat = new Seat();
-                seat.setId(String.valueOf(j));
-                seat.setAvailable("true");
-                seats.getSeat().add(seat);
-            }
-            trip.setIsAvailable("true");
-            trip.setSeats(seats);
-            //add trip
-            trips.getTrips().add(trip);
-        }
-        File file = new File(TripXMLCommonUtil.tripXMLFilePath);
-        XMLUtilities.JAXBMarshalling(trips, file);
+//        TripDTOList trips = new TripDTOList();
+//        for (int i = 0; i < 3; i++) {
+//            String tripID = "LK07022015070" + i;
+//            Trip trip = new Trip();
+//            trip.setId(tripID);
+//            String bus = "LK";
+//            trip.setBus(Bus.valueOf(bus));
+//            String date = "2015/02/16";
+//            trip.setDate(XMLUtilities.toXMLGregorianDate(date));
+//            String time = "08:00:00";
+//            trip.setTime(XMLUtilities.toXMLGregorianTime(time));
+//            Car car = new Car();
+//            car.setNumberPlate("60B2-134.30");
+//            trip.setCar(car);
+//            Trip.Seats seats = new Trip.Seats();
+//            //initial seat
+//            for (int j = 1; j <= car.getNumberOfSeats(); j++) {
+//                Seat seat = new Seat();
+//                seat.setId(String.valueOf(j));
+//                seat.setAvailable("true");
+//                seats.getSeat().add(seat);
+//            }
+//            trip.setIsAvailable("true");
+//            trip.setSeats(seats);
+//            //add trip
+//            trips.getTrips().add(trip);
+//        }
+//        File file = new File(TripXMLCommonUtil.tripXMLFilePath);
+//        XMLUtilities.JAXBMarshalling(trips, file);
     }
 }

@@ -9,6 +9,7 @@ import com.DTO.Trip;
 import com.DTO.TripDTOList;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
@@ -20,6 +21,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -29,6 +31,7 @@ import org.xml.sax.SAXException;
 public class TripXMLCommonUtil {
 
     public final static String tripXMLFilePath = "web/WEB-INF/trips.xml";
+    private static int countSeat = 0;
 
     public static void updateTripsFile()
             throws JAXBException, ParserConfigurationException, SAXException, IOException {
@@ -78,6 +81,38 @@ public class TripXMLCommonUtil {
             XMLUtilities.transformDOMToFile(document, tripXMLFilePath);
         } catch (XPathExpressionException ex) {
             Logger.getLogger(TripXMLCommonUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static int countTotalSeats(String tripID) 
+            throws ParserConfigurationException, SAXException, IOException {
+        Document document = XMLUtilities.parseFileToDOM(new File(tripXMLFilePath));
+
+        XPathFactory xPathFactory = XPathFactory.newInstance();
+        XPath xPath = xPathFactory.newXPath();
+
+        String expression = "/trips/trip[@id = '" + tripID + "']";
+        countSeat = 0;
+        try {
+            Node node = (Node) xPath.evaluate(expression, document, XPathConstants.NODE);
+            countSeat(node);
+        } catch (Exception e) {
+        }
+        return countSeat;
+    }
+    private static void countSeat(Node node) {
+        if (node == null) {
+            return;
+        }
+        if (node.getNodeName().equals("seat")) {
+            String status = node.getAttributes().getNamedItem("available").getNodeValue();
+            if (status.equals("false")) {
+                countSeat++;
+            }
+        }
+        NodeList list = node.getChildNodes();
+        int i = 0;
+        while (i < list.getLength()) {            
+            countSeat(list.item(i++));
         }
     }
 }

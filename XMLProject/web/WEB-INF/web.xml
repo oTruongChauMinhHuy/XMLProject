@@ -21,6 +21,10 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>TripServlet</servlet-name>
+        <servlet-class>com.servlet.TripServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/ControllerServlet</url-pattern>
@@ -32,6 +36,10 @@
     <servlet-mapping>
         <servlet-name>ServletAdaptor</servlet-name>
         <url-pattern>/webresources/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TripServlet</servlet-name>
+        <url-pattern>/TripServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

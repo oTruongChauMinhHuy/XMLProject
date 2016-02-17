@@ -5,22 +5,26 @@
  */
 package com.servlet;
 
+import com.DTO.Bus;
+import com.DTO.Car;
+import com.DTO.Trip;
+import com.util.DBUtilities;
+import com.util.TripXMLCommonUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author HuyTCM1
  */
-public class ControllerServlet extends HttpServlet {
+public class TripServlet extends HttpServlet {
 
-    private final String loginServlet = "LoginServlet";
-    private final String TripServlet = "TripServlet";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,15 +40,47 @@ public class ControllerServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String action = request.getParameter("btnAction");
             
-            String url = null;
-            if (action.equals("Login")) {
-                url = loginServlet;
-            } else if (action.equals("AddTrip")||action.equals("StartTrip")) {
-                url = TripServlet;
+            boolean result = false;
+            switch (action) {
+                case "AddTrip": {
+                    String bus = request.getParameter("ddlBus");
+                    String date = request.getParameter("ddlDate");
+                    String hour = request.getParameter("txtHour");
+                    String min = request.getParameter("txtMin");
+                    String numberPlate = request.getParameter("ddlCar");
+                    String tripID = bus + date.replace("-", "") + hour + min;
+                    String time = hour + ":" + min + ":00";
+                    Trip trip = new Trip();
+                    trip.setId(tripID);
+                    trip.setIsAvailable(String.valueOf(true));
+                    trip.setBus(Bus.valueOf(bus));
+                    trip.setDate(date);
+                    trip.setTime(time);
+                    Car car = new Car();
+                    car.setNumberPlate(numberPlate);
+                    trip.setCar(car);
+                    result = DBUtilities.addNewTrip(trip);
+                    break;
+                }
+                case "StartTrip": {
+                    String tripID = request.getParameter("txtTripID");
+                    try {
+                        int totalSeats = TripXMLCommonUtil.countTotalSeats(tripID);
+                        result = DBUtilities.startTrip(tripID, totalSeats);
+                    } catch (ParserConfigurationException | SAXException | IOException e) {
+                        log(TripServlet.class.getName(), e);
+                    }
+                    break;
+                }
+                case "CancelTrip": {
+                    String tripID = request.getParameter("txtTripID");
+                    result = DBUtilities.startTrip(tripID, 0);
+                    break;
+                }
             }
-            
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
-            requestDispatcher.forward(request, response);
+            if (result) {
+                
+            }
         }
     }
 

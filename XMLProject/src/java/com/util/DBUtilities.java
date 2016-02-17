@@ -12,12 +12,16 @@ import com.DTO.Seat;
 import com.DTO.Trip;
 import com.DTO.TripDTOList;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.datatype.DatatypeConfigurationException;
 
 /**
  *
@@ -102,6 +106,7 @@ public class DBUtilities {
         }
         return null;
     }
+
     public static TripDTOList getAllTrips() {
         Connection con = null;
         PreparedStatement statement = null;
@@ -111,9 +116,9 @@ public class DBUtilities {
             String sql = "SELECT * FROM Trips WHERE isAvailable = 1";
             statement = con.prepareStatement(sql);
             rs = statement.executeQuery();
-            
+
             TripDTOList trips = new TripDTOList();
-            while (rs.next()) {                
+            while (rs.next()) {
                 String tripID = rs.getString("tripID");
                 Trip trip = new Trip();
                 trip.setId(tripID);
@@ -125,7 +130,7 @@ public class DBUtilities {
                 trip.setTime(XMLUtilities.toXMLGregorianTime(time));
                 Car car = new Car();
                 car.setNumberPlate(rs.getString("numberPlate"));
-                
+
                 trip.setCar(car);
                 Trip.Seats seats = new Trip.Seats();
                 //initial seat
@@ -140,7 +145,7 @@ public class DBUtilities {
                 trips.getTrips().add(trip);
             }
             return trips;
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException | ParseException | DatatypeConfigurationException e) {
             Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
@@ -158,5 +163,79 @@ public class DBUtilities {
             }
         }
         return null;
+    }
+
+    public static boolean addNewTrip(Trip trip) {
+        Connection con = null;
+        PreparedStatement statement = null;
+        try {
+            con = makeConnection();
+            String sql = "INSERT INTO Trips(tripID, bus, date, time, numberPlate, isAvailable) "
+                    + "VALUES(?,?,?,?,?,?)";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, trip.getId());
+            statement.setString(2, trip.getBus().toString());
+            statement.setDate(3, Date.valueOf(trip.getDate()));
+            statement.setTime(4, Time.valueOf(trip.getTime()));
+            statement.setString(5, trip.getCar().getNumberPlate());
+            statement.setBoolean(6, Boolean.valueOf(trip.getIsAvailable()));
+
+            int result = statement.executeUpdate();
+            if (result > 0) {
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        return false;
+    }
+
+    public static boolean startTrip(String tripID, int totalSeats) {
+        Connection con = null;
+        PreparedStatement statement = null;
+        try {
+            con = makeConnection();
+            String sql;
+            if (totalSeats > 0) {
+                sql = "UPDATE Trips SET isAvailable = 0, totalSeats = ? WHERE tripID = ?";
+                statement = con.prepareStatement(sql);
+                statement.setInt(1, totalSeats);
+                statement.setString(2, tripID);
+            } else {
+                sql = "DELETE FROM Trips WHERE tripID = ?";
+                statement = con.prepareCall(sql);
+                statement.setString(1, tripID);
+            }
+
+            int result = statement.executeUpdate();
+            if (result > 0) {
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        return false;
     }
 }

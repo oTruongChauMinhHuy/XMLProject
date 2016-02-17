@@ -7,25 +7,40 @@ and open the template in the editor.
 
 <xs:schema version="1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:tri="http://www.fpt.edu.vn/project/trip"
-           xmlns:car="http://www.fpt.edu.vn/project/car"
+           xmlns:="http://www.fpt.edu.vn/project/trip"
            elementFormDefault="qualified"
            targetNamespace="http://www.fpt.edu.vn/project/trip">
     <xs:import namespace="http://www.fpt.edu.vn/project/car" schemaLocation="Car.xsd"/>
-    <xs:element name="Trip">
+    <xs:element name="trip">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Bus" type="tri:Bus"/>
-                <xs:element name="Time" type="xs:dateTime"/>
-                <xs:element ref="car:Car"/>
-                <xs:element name="Seats">
+                <xs:element name="bus" type="Bus"/>
+                <xs:element name="date" type="xs:date"/>
+                <xs:element name="time" type="xs:time"/>
+                <xs:element name="car" type="Car"/>
+                <xs:element name="seats">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Seat" type="tri:Seat" maxOccurs="unbounded"/>
+                            <xs:element name="seat" type="Seat" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
+            <xs:attribute name="id">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="(LK|SG)\d{12}"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="isAvailable">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="true"/>
+                        <xs:enumeration value="false"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
     <xs:simpleType name="Bus">
@@ -34,6 +49,12 @@ and open the template in the editor.
             <xs:enumeration value="SG"/>
         </xs:restriction>
     </xs:simpleType>
+    <xs:complexType name="Car">
+        <xs:sequence>
+            <xs:element name="numberOfSeats" type="xs:int" default="24" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="numberPlate" use="required"/>
+    </xs:complexType>
     <xs:complexType name="Seat">
         <xs:attribute name="id" use="required"/>
         <xs:attribute name="available">

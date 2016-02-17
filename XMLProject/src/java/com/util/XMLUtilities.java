@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -116,14 +117,27 @@ public class XMLUtilities {
         return sw.toString();
     }
 
-    public static XMLGregorianCalendar toXMLGregorianCalendar(String date)
+    public static String toXMLGregorianDate(String date)
             throws ParseException, DatatypeConfigurationException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("CCYY-MM-DD");
-        GregorianCalendar gCalendar = new GregorianCalendar();
-        gCalendar.setTime(dateFormat.parse(date));
-        return DatatypeFactory.newInstance().newXMLGregorianCalendar(gCalendar);
+//        GregorianCalendar gCalendar = new GregorianCalendar();
+//        String[] parts = date.split("/");
+//        gCalendar.set(Integer.valueOf(parts[0]), (Integer.valueOf(parts[1]) - 1), Integer.valueOf(parts[2]));
+//        gCalendar.clear(Calendar.ZONE_OFFSET);
+//        return DatatypeFactory.newInstance().newXMLGregorianCalendar(gCalendar);
+        return date.replace("/", "-");
     }
 
+    public static String toXMLGregorianTime(String time)
+            throws ParseException, DatatypeConfigurationException {
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+//        GregorianCalendar gCalendar = new GregorianCalendar();
+//        gCalendar.setTime(dateFormat.parse(time));
+//        gCalendar.clear(Calendar.ZONE_OFFSET);
+//        gCalendar.clear(Calendar.MILLISECOND);
+//        return DatatypeFactory.newInstance().newXMLGregorianCalendar(gCalendar);
+        return time;
+    }
+    
     public static Document parseFileToDOM(File xmlFile)
             throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

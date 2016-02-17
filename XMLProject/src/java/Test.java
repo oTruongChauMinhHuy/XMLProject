@@ -1,21 +1,18 @@
 
-import com.DTO.CarDTO;
-import com.DTO.SeatDTO;
-import com.DTO.SeatDTOList;
-import com.DTO.TripDTO;
+import com.DTO.Bus;
+import com.DTO.Car;
+import com.DTO.Seat;
+import com.DTO.Trip;
 import com.DTO.TripDTOList;
-import com.util.CommonUtil;
-import com.util.StAXCursor;
+import com.util.TripXMLCommonUtil;
 import com.util.XMLUtilities;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.ParseException;
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 /*
@@ -32,82 +29,44 @@ public class Test {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JAXBException, ParserConfigurationException, SAXException, IOException, TransformerException, ParseException, DatatypeConfigurationException {
         String output = "src/java/";
-        String fileSchemaURI = "web/WEB-INF/Car.xsd";
-        String packageName = "generate.jaxb";
+        String fileSchemaURI = "web/WEB-INF/Trip.xsd";
+        String packageName = "com.DTO";
 
         //XMLUtilities.XJCGenerateJavaObj(output, fileSchemaURI, packageName);
 //        XMLUtilities.JAXBUnmarshalling(Car.class, "web/WEB-INF/Car.xml");
-//        
-//        Car car = new Car();
-//        Driver driver = new Driver();
-//        driver.setId("123");
-//        driver.setName("Abc");
-//        Date date = new Date();
-//        XMLGregorianCalendar xml = XMLUtilities.toXMLGregorianCalendar(date);
-//        xml.toGregorianCalendar().getTime();
-//        driver.setDOB(xml);
-//        driver.setSalary(BigDecimal.TEN);
-//        
-//        car.setDriver(driver);
-//        car.setNumberPlate("123123");
-//        car.setNumberOfSeats(23);
+
 //        
 //        XMLUtilities.JAXBMarshalling(car, "web/WEB-INF/Cars.xml");
         TripDTOList trips = new TripDTOList();
         for (int i = 0; i < 3; i++) {
-            TripDTO trip = new TripDTO();
-            trip.setId(String.valueOf(i));
-            trip.setBus("SG");
-            CarDTO car = new CarDTO("60B2-134.30");
+            String tripID = "LK07022015070" + i;
+            Trip trip = new Trip();
+            trip.setId(tripID);
+            String bus = "LK";
+            trip.setBus(Bus.valueOf(bus));
+            String date = "2015/02/16";
+            trip.setDate(XMLUtilities.toXMLGregorianDate(date));
+            String time = "08:00:00";
+            trip.setTime(XMLUtilities.toXMLGregorianTime(time));
+            Car car = new Car();
+            car.setNumberPlate("60B2-134.30");
             trip.setCar(car);
-            trip.setDate("2015/02/16");
-            trip.setTime("08:00");
-            SeatDTOList seats = new SeatDTOList();
-            for (int j = 0; j < 10; j++) {
-                SeatDTO seat = new SeatDTO();
+            Trip.Seats seats = new Trip.Seats();
+            //initial seat
+            for (int j = 1; j <= car.getNumberOfSeats(); j++) {
+                Seat seat = new Seat();
                 seat.setId(String.valueOf(j));
-                seats.getSeats().add(seat);
+                seat.setAvailable("true");
+                seats.getSeat().add(seat);
             }
+            trip.setIsAvailable("true");
             trip.setSeats(seats);
+            //add trip
             trips.getTrips().add(trip);
         }
-        String xml;
-        String filePath = "web/WEB-INF/trips.xml";
-        try {
-//            CommonUtil.updateTripsFile(filePath);
-            StAXCursor.updateAvailableTrips(filePath);
-//        try {
-//            TripDTOList oldTrips = (TripDTOList) XMLUtilities.JAXBUnmarshalling(TripDTOList.class, filePath);
-//            for (TripDTO trip : trips.getTrips()) {
-//                trip.setBus("SG");
-//                oldTrips.getTrips().add(trip);
-//            }
-//            XMLUtilities.JAXBMarshalling(oldTrips, new File(filePath));
-//            try {
-//
-//                xml = XMLUtilities.marshallToString(oldTrips);
-//                System.out.println(xml);
-//            } catch (JAXBException ex) {
-//                Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        } catch (Exception ex) {
-//            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
-//        try {
-//            for (TripDTO trip : trips.getTrips()) {
-//                Element element = XMLUtilities.JAXBMarshalling(trip);
-//                System.out.println(element);
-//            }
-//            xml = XMLUtilities.marshallToString(trips);
-//            System.out.println(xml);
-//        } catch (JAXBException ex) {
-//            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        } catch (Exception ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        File file = new File(TripXMLCommonUtil.tripXMLFilePath);
+        XMLUtilities.JAXBMarshalling(trips, file);
     }
 }

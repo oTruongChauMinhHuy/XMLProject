@@ -6,7 +6,6 @@
 package com.listener;
 
 import com.DTO.CarDTOList;
-import com.DTO.TripDTOList;
 import com.util.DBUtilities;
 import com.util.XMLUtilities;
 import java.util.logging.Level;

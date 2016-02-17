@@ -5,11 +5,11 @@
  */
 package com.util;
 
-import com.DTO.CarDTO;
+import com.DTO.Bus;
+import com.DTO.Car;
 import com.DTO.CarDTOList;
-import com.DTO.SeatDTO;
-import com.DTO.SeatDTOList;
-import com.DTO.TripDTO;
+import com.DTO.Seat;
+import com.DTO.Trip;
 import com.DTO.TripDTOList;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -78,7 +78,8 @@ public class DBUtilities {
             CarDTOList cars = new CarDTOList();
             while (rs.next()) {
                 String numberPlate = rs.getString("numberPlate");
-                CarDTO car = new CarDTO(numberPlate);
+                Car car = new Car();
+                car.setNumberPlate(numberPlate);
                 cars.getCar().add(car);
             }
             return cars;
@@ -114,28 +115,32 @@ public class DBUtilities {
             TripDTOList trips = new TripDTOList();
             while (rs.next()) {                
                 String tripID = rs.getString("tripID");
-                TripDTO trip = new TripDTO();
+                Trip trip = new Trip();
                 trip.setId(tripID);
-                trip.setBus(rs.getString("bus"));
-                trip.setDate(rs.getString("date"));
-                trip.setTime(rs.getString("time"));
-                CarDTO car = new CarDTO(rs.getString("numberPlate"));
-                trip.setCar(car);
-                //initial seat
-                SeatDTOList seats = new SeatDTOList();
-                for (int i = 1; i <= car.getNumberOfSeats(); i++) {
-                    SeatDTO seat = new SeatDTO();
-                    seat.setId(String.valueOf(i));
-                    seats.getSeats().add(seat);
-                }
-                trip.setSeats(seats);
-                trip.setIsAvailable(rs.getString("isAvailable"));
+                String bus = rs.getString("bus");
+                trip.setBus(Bus.valueOf(bus));
+                String date = rs.getString("date");
+                trip.setDate(XMLUtilities.toXMLGregorianDate(date));
+                String time = rs.getString("time");
+                trip.setTime(XMLUtilities.toXMLGregorianTime(time));
+                Car car = new Car();
+                car.setNumberPlate(rs.getString("numberPlate"));
                 
+                trip.setCar(car);
+                Trip.Seats seats = new Trip.Seats();
+                //initial seat
+                for (int i = 1; i <= car.getNumberOfSeats(); i++) {
+                    Seat seat = new Seat();
+                    seat.setId(String.valueOf(i));
+                    seats.getSeat().add(seat);
+                }
+                trip.setIsAvailable(rs.getString("isAvailable"));
+                trip.setSeats(seats);
                 //add trip
                 trips.getTrips().add(trip);
             }
             return trips;
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (Exception e) {
             Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {

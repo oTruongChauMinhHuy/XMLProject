@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 
-
-<ns1:Trip
-    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-    xmlns:ns1='http://www.fpt.edu.vn/project/trip'
-    xmlns:car='http://www.fpt.edu.vn/project/car'
-    xsi:schemaLocation='http://www.fpt.edu.vn/project/trip Trip.xsd'>
-    <ns1:Bus>LK</ns1:Bus>
-    <ns1:Time>2015-12-12T00:00:00</ns1:Time>
-    <car:Car numberPlate="123">
-        <car:Driver>abc</car:Driver>
-        <car:numberOfSeats>24</car:numberOfSeats>
-    </car:Car>
-    <ns1:Seats>
-        <ns1:Seat id="2" available="false"></ns1:Seat>
-        <ns1:Seat id="3" available="pending"></ns1:Seat>
-        <ns1:Seat id="4" available="true"></ns1:Seat>
-    </ns1:Seats>
-</ns1:Trip>
+<trip xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+      xmlns:='http://www.fpt.edu.vn/project/trip'
+      xsi:schemaLocation='http://www.fpt.edu.vn/project/trip Trip.xsd'
+      id="LK070220150700" isAvailable="true">
+    <bus>LK</bus>
+        <date>2015-02-16</date>
+        <time>08:00:00</time>
+        <car numberPlate="60B2-134.30">
+            <numberOfSeats>24</numberOfSeats>
+        </car>
+        <seats>
+            <seat id="1" available="true"/>
+            <seat id="2" available="true"/>
+            <seat id="3" available="true"/>
+            <seat id="4" available="true"/>
+            <seat id="5" available="true"/>
+            <seat id="6" available="true"/>
+            <seat id="7" available="true"/>
+            <seat id="8" available="true"/>
+            <seat id="9" available="true"/>
+            <seat id="10" available="true"/>
+            <seat id="11" available="true"/>
+            <seat id="12" available="true"/>
+            <seat id="13" available="true"/>
+            <seat id="14" available="true"/>
+            <seat id="15" available="true"/>
+            <seat id="16" available="true"/>
+            <seat id="17" available="true"/>
+            <seat id="18" available="true"/>
+            <seat id="19" available="true"/>
+            <seat id="20" available="true"/>
+            <seat id="21" available="true"/>
+            <seat id="22" available="true"/>
+            <seat id="23" available="true"/>
+            <seat id="24" available="true"/>
+        </seats>
+</trip>

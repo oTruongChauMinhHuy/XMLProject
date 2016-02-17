@@ -5,7 +5,7 @@
  */
 package com.util;
 
-import com.DTO.TripDTO;
+import com.DTO.Trip;
 import com.DTO.TripDTOList;
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class TripXMLCommonUtil {
             XMLUtilities.JAXBMarshalling(newTrips, file);
         } else {
             TripDTOList trips = (TripDTOList) XMLUtilities.JAXBUnmarshalling(TripDTOList.class, TripXMLCommonUtil.tripXMLFilePath);
-            for (TripDTO trip : newTrips.getTrips()) {
+            for (Trip trip : newTrips.getTrips()) {
                 trips.getTrips().add(trip);
             }
             XMLUtilities.JAXBMarshalling(trips, file);

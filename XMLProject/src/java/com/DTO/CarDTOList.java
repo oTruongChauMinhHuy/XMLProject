@@ -25,14 +25,14 @@ import javax.xml.bind.annotation.XmlType;
 public class CarDTOList {
 
     @XmlElement(required = true)
-    private List<CarDTO> car;
+    private List<Car> car;
 
     public CarDTOList() {
     }
 
-    public List<CarDTO> getCar() {
+    public List<Car> getCar() {
         if (car == null) {
-            car = new ArrayList<CarDTO>();
+            car = new ArrayList<>();
         }
         return car;
     }

@@ -10,7 +10,6 @@ and open the template in the editor.
            xmlns:="http://www.fpt.edu.vn/project/trip"
            elementFormDefault="qualified"
            targetNamespace="http://www.fpt.edu.vn/project/trip">
-    <xs:import namespace="http://www.fpt.edu.vn/project/car" schemaLocation="Car.xsd"/>
     <xs:element name="trip">
         <xs:complexType>
             <xs:sequence>

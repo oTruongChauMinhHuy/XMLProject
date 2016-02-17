@@ -5,10 +5,6 @@
  */
 package com.services;
 
-import com.util.XMLUtilities;
-import generate.jaxb.Bus;
-import generate.jaxb.Car;
-import generate.jaxb.Trip;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;

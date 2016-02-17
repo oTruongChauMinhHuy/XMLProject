@@ -26,12 +26,12 @@ import javax.xml.bind.annotation.XmlType;
 public class TripDTOList {
     
     @XmlElement(required = true)
-    private List<TripDTO> trip;
+    private List<Trip> trip;
 
     public TripDTOList() {
     }
 
-    public List<TripDTO> getTrips() {
+    public List<Trip> getTrips() {
         if (trip == null) {
             trip = new ArrayList<>();
         }

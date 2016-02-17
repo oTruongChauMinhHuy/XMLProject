@@ -5,6 +5,7 @@
  */
 package com.util;
 
+import com.DTO.AccountDTO;
 import com.DTO.Bus;
 import com.DTO.Car;
 import com.DTO.CarDTOList;
@@ -57,6 +58,38 @@ public class DBUtilities {
                 if (rs != null) {
                     rs.close();
                 }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        return false;
+    }
+
+    public static boolean createNewUser(AccountDTO account) {
+        Connection con = null;
+        PreparedStatement statement = null;
+        try {
+            con = makeConnection();
+            String sql = "INSERT INTO Accounts (username, password) "
+                    + "VALUES(?,?)";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, account.getUsername());
+            statement.setString(2, account.getPassword());
+
+            int result = statement.executeUpdate();
+            if (result > 0) {
+                return true;
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
+        } finally {
+            try {
                 if (statement != null) {
                     statement.close();
                 }

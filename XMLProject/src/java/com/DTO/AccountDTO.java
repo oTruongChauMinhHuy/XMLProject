@@ -18,8 +18,7 @@ public class AccountDTO {
     public AccountDTO() {
     }
 
-    public AccountDTO(String id, String username, String password) {
-        this.id = id;
+    public AccountDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }

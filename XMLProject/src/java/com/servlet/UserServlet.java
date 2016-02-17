@@ -5,9 +5,10 @@
  */
 package com.servlet;
 
+import com.DTO.AccountDTO;
+import com.util.DBUtilities;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HuyTCM1
  */
-public class ControllerServlet extends HttpServlet {
+public class UserServlet extends HttpServlet {
 
-    private final String loginServlet = "LoginServlet";
-    private final String TripServlet = "TripServlet";
-    private final String UserServlet = "UserServlet";
-    private final String checkoutServlet = "CheckoutServlet";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,21 +33,13 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String action = request.getParameter("btnAction");
+            String username = request.getParameter("txtNewUsername");
+            String password = request.getParameter("txtNewPassword");
             
-            String url = null;
-            if (action.equals("Login")) {
-                url = loginServlet;
-            } else if (action.equals("AddTrip")||action.equals("StartTrip")) {
-                url = TripServlet;
-            } else if (action.equals("CreateUser")) {
-                url = UserServlet;
-            } else if (action.equals("Paid")) {
-                url = checkoutServlet;
+            AccountDTO account = new AccountDTO(username, password);
+            if (DBUtilities.createNewUser(account)) {
+                //TODO:: reponse
             }
-            
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
-            requestDispatcher.forward(request, response);
         }
     }
 

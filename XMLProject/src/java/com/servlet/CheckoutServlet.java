@@ -5,24 +5,25 @@
  */
 package com.servlet;
 
+import com.util.TripXMLCommonUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author HuyTCM1
  */
-public class ControllerServlet extends HttpServlet {
+public class CheckoutServlet extends HttpServlet {
 
-    private final String loginServlet = "LoginServlet";
-    private final String TripServlet = "TripServlet";
-    private final String UserServlet = "UserServlet";
-    private final String checkoutServlet = "CheckoutServlet";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,25 +33,21 @@ public class ControllerServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private final String indexPage = "index.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String action = request.getParameter("btnAction");
-            
-            String url = null;
-            if (action.equals("Login")) {
-                url = loginServlet;
-            } else if (action.equals("AddTrip")||action.equals("StartTrip")) {
-                url = TripServlet;
-            } else if (action.equals("CreateUser")) {
-                url = UserServlet;
-            } else if (action.equals("Paid")) {
-                url = checkoutServlet;
+            String tripID = request.getParameter("txtTripID");
+            String[] seats = request.getParameterValues("chkSeat");
+            for (String seat : seats) {
+                try {
+                    TripXMLCommonUtil.updateSeatStatus(tripID, seat, "false");
+                } catch (ParserConfigurationException | SAXException | TransformerException ex) {
+                    Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
-            requestDispatcher.forward(request, response);
+            response.sendRedirect(indexPage);
         }
     }
 

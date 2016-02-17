@@ -25,6 +25,18 @@
         <servlet-name>TripServlet</servlet-name>
         <servlet-class>com.servlet.TripServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>com.servlet.UserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>com.servlet.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckSeats</servlet-name>
+        <servlet-class>com.servlet.CheckSeats</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/ControllerServlet</url-pattern>
@@ -40,6 +52,18 @@
     <servlet-mapping>
         <servlet-name>TripServlet</servlet-name>
         <url-pattern>/TripServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/UserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/CheckoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckSeats</servlet-name>
+        <url-pattern>/CheckSeats</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

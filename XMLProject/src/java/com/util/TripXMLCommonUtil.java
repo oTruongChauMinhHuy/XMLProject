@@ -65,7 +65,22 @@ public class TripXMLCommonUtil {
             Logger.getLogger(TripXMLCommonUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public static String checkSeatStatus(String tripID, String seatID) 
+            throws ParserConfigurationException, SAXException, IOException {
+        String status = null;
+        Document document = XMLUtilities.parseFileToDOM(new File(tripXMLFilePath));
 
+        XPathFactory xPathFactory = XPathFactory.newInstance();
+        XPath xPath = xPathFactory.newXPath();
+
+        String expression = "/trips/trip[@id = '" + tripID + "']/seats/seat[@id = '" + seatID + "']/@available";
+        try {
+            status = (String) xPath.evaluate(expression, document, XPathConstants.STRING);
+        } catch (XPathExpressionException e) {
+            Logger.getLogger(TripXMLCommonUtil.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return status;
+    }
     public static void updateSeatStatus(String tripID, String seatID, String status)
             throws ParserConfigurationException, SAXException, IOException, TransformerException {
         Document document = XMLUtilities.parseFileToDOM(new File(tripXMLFilePath));

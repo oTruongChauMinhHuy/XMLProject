@@ -5,24 +5,24 @@
  */
 package com.servlet;
 
+import com.util.TripXMLCommonUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author HuyTCM1
  */
-public class ControllerServlet extends HttpServlet {
+public class CheckSeats extends HttpServlet {
 
-    private final String loginServlet = "LoginServlet";
-    private final String TripServlet = "TripServlet";
-    private final String UserServlet = "UserServlet";
-    private final String checkoutServlet = "CheckoutServlet";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,21 +36,26 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String action = request.getParameter("btnAction");
-            
-            String url = null;
-            if (action.equals("Login")) {
-                url = loginServlet;
-            } else if (action.equals("AddTrip")||action.equals("StartTrip")) {
-                url = TripServlet;
-            } else if (action.equals("CreateUser")) {
-                url = UserServlet;
-            } else if (action.equals("Paid")) {
-                url = checkoutServlet;
+            String tripID = request.getParameter("tripID");
+            String[] seats = request.getParameterValues("seats");
+            for (String seat : seats) {
+                try {
+                    String result = seat+":" + TripXMLCommonUtil.checkSeatStatus(tripID, seat);
+                    out.print(result);
+                } catch (ParserConfigurationException | SAXException ex) {
+                    Logger.getLogger(CheckSeats.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
-            requestDispatcher.forward(request, response);
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CheckSeats</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CheckSeats at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

@@ -129,6 +129,7 @@ public class DBUtilities {
                     seats.getSeats().add(seat);
                 }
                 trip.setSeats(seats);
+                trip.setIsAvailable(rs.getString("isAvailable"));
                 
                 //add trip
                 trips.getTrips().add(trip);

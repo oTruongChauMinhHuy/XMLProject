@@ -30,7 +30,7 @@ public class TripDTO {
     @XmlAttribute(required = true)
     private String id;
     @XmlAttribute(required = true)
-    private String status;
+    private String isAvailable;
     @XmlElement(required = true)
     private String bus;
     @XmlElement(required = true)
@@ -53,12 +53,12 @@ public class TripDTO {
         this.id = id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getIsAvailable() {
+        return isAvailable;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setIsAvailable(String isAvailable) {
+        this.isAvailable = isAvailable;
     }
 
     public String getBus() {

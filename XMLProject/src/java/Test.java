@@ -4,6 +4,8 @@ import com.DTO.SeatDTO;
 import com.DTO.SeatDTOList;
 import com.DTO.TripDTO;
 import com.DTO.TripDTOList;
+import com.util.CommonUtil;
+import com.util.StAXCursor;
 import com.util.XMLUtilities;
 import java.io.File;
 import java.io.IOException;
@@ -74,22 +76,25 @@ public class Test {
         String xml;
         String filePath = "web/WEB-INF/trips.xml";
         try {
-            TripDTOList oldTrips = (TripDTOList) XMLUtilities.JAXBUnmarshalling(TripDTOList.class, filePath);
-            for (TripDTO trip : trips.getTrips()) {
-                trip.setBus("SG");
-                oldTrips.getTrips().add(trip);
-            }
-            XMLUtilities.JAXBMarshalling(oldTrips, new File(filePath));
-            try {
-
-                xml = XMLUtilities.marshallToString(oldTrips);
-                System.out.println(xml);
-            } catch (JAXBException ex) {
-                Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//            CommonUtil.updateTripsFile(filePath);
+            StAXCursor.updateAvailableTrips(filePath);
+//        try {
+//            TripDTOList oldTrips = (TripDTOList) XMLUtilities.JAXBUnmarshalling(TripDTOList.class, filePath);
+//            for (TripDTO trip : trips.getTrips()) {
+//                trip.setBus("SG");
+//                oldTrips.getTrips().add(trip);
+//            }
+//            XMLUtilities.JAXBMarshalling(oldTrips, new File(filePath));
+//            try {
+//
+//                xml = XMLUtilities.marshallToString(oldTrips);
+//                System.out.println(xml);
+//            } catch (JAXBException ex) {
+//                Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        } catch (Exception ex) {
+//            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
 //        try {
 //            for (TripDTO trip : trips.getTrips()) {
@@ -101,5 +106,8 @@ public class Test {
 //        } catch (JAXBException ex) {
 //            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        } catch (Exception ex) {
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

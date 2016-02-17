@@ -36,7 +36,7 @@ public class CheckSeats extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String tripID = request.getParameter("tripID");
+            String tripID = request.getParameter("txtTripID");
             String[] seats = request.getParameterValues("seats");
             for (String seat : seats) {
                 try {

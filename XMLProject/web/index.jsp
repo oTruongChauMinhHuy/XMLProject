@@ -49,7 +49,7 @@
                 <div class="col-lg-5">
                     <table border="1" class="car table table-bordered">
                         <form action="Checkout.jsp" name="checkout-form" method="GET" onsubmit="return validate()">
-                            <input id="form-Time" type="hidden" name="txtTime"/>
+                            <input id="form-Time" type="hidden" name="txtTripID"/>
                             <tr>
                                 <td colspan="2" class="disabled">0</td>
                                 <td class="disabled"></td>
@@ -112,12 +112,12 @@
                 var bus = document.getElementById("ddlBuses").value;
                 var trip = document.getElementById("ddlTrip").value;
                 var url = "?ddlBus=" + bus + "&ddlTrip=" + trip + "&btnAction=getTrip";
-    //                                        $.ajax({
-    //                                            url: url,
-    //                                            dataType: 'text'
-    //                                        }).done(function result(result) {
-    //                                            alert(result);
-    //                                        });
+                //                                        $.ajax({
+                //                                            url: url,
+                //                                            dataType: 'text'
+                //                                        }).done(function result(result) {
+                //                                            alert(result);
+                //                                        });
 
             }
             function chooseTime(timeId) {
@@ -136,21 +136,32 @@
                 }
             }
             function validate() {
-                var time = document.forms['checkout-form']['txtTime'].value;
+                var tripID = document.forms['checkout-form']['txtTripID'].value;
                 var chkSeat = document.forms['checkout-form']['chkSeat'];
-                if (time === null || time === "") {
+                if (tripID === null || tripID === "") {
                     alert("Vui lòng chọn chuyến!");
                     return false;
                 }
                 var isValidate = false;
+                var seats = "";
                 for (var i = 0; i < chkSeat.length; i++) {
                     if (chkSeat[i].checked) {
+                        seats += "&seats=" + i;
                         isValidate = true;
                     }
                 }
                 if (!isValidate) {
                     alert("Vui lòng chọn ghế!");
                 }
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        var data = xhr.responseText;
+                        alert(data);
+                    }
+                }
+                xhr.open('GET', 'CheckSeats?txtTripID='+tripID + seats, true);
+                xhr.send(null);
                 return isValidate;
             }
         </script>

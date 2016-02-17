@@ -33,9 +33,10 @@ public class Test {
 //        String output = "src/java/";
 //        String fileSchemaURI = "web/WEB-INF/Trip.xsd";
 //        String packageName = "com.DTO";
+        TripXMLCommonUtil.updateTripsFile();
         
-        TripXMLCommonUtil.updateTripStatus("LK070220150700", "false");
-        TripXMLCommonUtil.updateSeatStatus("LK070220150700", "1", "pending");
+//        TripXMLCommonUtil.updateTripStatus("LK070220150700", "false");
+//        TripXMLCommonUtil.updateSeatStatus("LK070220150700", "1", "pending");
 
 //        XMLUtilities.JAXBMarshalling(car, "web/WEB-INF/Cars.xml");
 //        TripDTOList trips = new TripDTOList();

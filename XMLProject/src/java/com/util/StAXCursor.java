@@ -96,13 +96,13 @@ public class StAXCursor {
                 writer.close();
             }
             //rename file
-            renameXMLFile(newFile, file);
+            reWriteFile(newFile, file);
         } catch (IOException | XMLStreamException ex) {
             Logger.getLogger(StAXCursor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static void renameXMLFile(File source, File target)
+    public static void reWriteFile(File source, File target)
             throws FileNotFoundException, IOException {
         FileReader reader = new FileReader(source);
         BufferedReader bufferedReader;

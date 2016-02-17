@@ -155,12 +155,12 @@
                 }
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
                         var data = xhr.responseText;
                         alert(data);
                     }
                 }
-                xhr.open('GET', 'CheckSeats?txtTripID='+tripID + seats, true);
+                xhr.open('GET', 'CheckSeats?txtTripID=' + tripID + seats, true);
                 xhr.send(null);
                 return isValidate;
             }

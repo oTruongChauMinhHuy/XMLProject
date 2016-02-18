@@ -16,6 +16,8 @@ hs_err_pid*
 /XMLProject/build/
 /XMLProject/dist/
 
+XMLProject/nbproject/
+
 ant-deploy.xml
 project.properties
 genfiles.properties

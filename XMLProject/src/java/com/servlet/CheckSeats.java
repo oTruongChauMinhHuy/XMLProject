@@ -40,7 +40,8 @@ public class CheckSeats extends HttpServlet {
             String[] seats = request.getParameterValues("seats");
             for (String seat : seats) {
                 try {
-                    String result = seat+":" + TripXMLCommonUtil.checkSeatStatus(tripID, seat);
+                    String realPath = request.getServletContext().getRealPath("/");
+                    String result = seat+":" + TripXMLCommonUtil.checkSeatStatus(tripID, seat, realPath);
                     out.print(result);
                 } catch (ParserConfigurationException | SAXException ex) {
                     Logger.getLogger(CheckSeats.class.getName()).log(Level.SEVERE, null, ex);

@@ -40,6 +40,7 @@ public class TripServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String action = request.getParameter("btnAction");
             
+            String realPath = request.getServletContext().getRealPath("/");
             boolean result = false;
             switch (action) {
                 case "AddTrip": {
@@ -65,7 +66,7 @@ public class TripServlet extends HttpServlet {
                 case "StartTrip": {
                     String tripID = request.getParameter("txtTripID");
                     try {
-                        int totalSeats = TripXMLCommonUtil.countTotalSeats(tripID);
+                        int totalSeats = TripXMLCommonUtil.countTotalSeats(tripID, realPath);
                         result = DBUtilities.startTrip(tripID, totalSeats);
                     } catch (ParserConfigurationException | SAXException | IOException e) {
                         log(TripServlet.class.getName(), e);

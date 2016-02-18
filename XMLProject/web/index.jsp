@@ -18,9 +18,12 @@
         <c:if test="${not empty user}">
             <div class="main-container col-lg-11">
                 <div>
+                    <c:set var="trips" value="${requestScope.TRIPS}}"/>
                     Tuyến: <select name="ddlBuses" id="ddlBuses" onchange="changeTrip()">
-                        <option value="1">Long Khánh - Sài Gòn</option>
-                        <option value="2">Sài Gòn - Long Khánh</option>
+                        <c:if test="${not empty trips}">
+                            <c:import var="xslt" url="/WEB-INF/BusDDL.xsl"/>
+                            <x:transform doc="${trips}" xslt="${xslt}"/>
+                        </c:if>
                     </select>
                     ---
                     Chuyến: <select name="ddlTrip" id="ddlTrip" onchange="changeTrip()">
@@ -63,28 +66,67 @@
                                     2
                                     <input type="checkbox" name="chkSeat" value="2" hidden="" id="seatNum-2"/>
                                 </td>
-                                <td id="3" onclick="chooseSeat(3)" class="">3</td>
+                                <td id="3" onclick="chooseSeat(3)" class="">
+                                    3
+                                    <input type="checkbox" name="chkSeat" value="3" hidden="" id="seatNum-3"/>
+                                </td>
                                 <td class="disabled"></td>
-                                <td id="4" onclick="chooseSeat(4)" class="">4</td>
-                                <td id="5" onclick="chooseSeat(5)" class="">5</td>
+                                <td id="4" onclick="chooseSeat(4)" class="">
+                                    4
+                                    <input type="checkbox" name="chkSeat" value="4" hidden="" id="seatNum-4"/>
+                                </td>
+                                <td id="5" onclick="chooseSeat(5)" class="">
+                                    5
+                                    <input type="checkbox" name="chkSeat" value="5" hidden="" id="seatNum-5"/>
+                                </td>
                             </tr>
                             <tr>
-                                <td id="6" onclick="chooseSeat(6)" class="">6</td>
-                                <td id="7" onclick="chooseSeat(7)" class="">7</td>
+                                <td id="6" onclick="chooseSeat(6)" class="">
+                                    6
+                                    <input type="checkbox" name="chkSeat" value="6" hidden="" id="seatNum-6"/>
+                                </td>
+                                <td id="7" onclick="chooseSeat(7)" class="">
+                                    7
+                                    <input type="checkbox" name="chkSeat" value="7" hidden="" id="seatNum-7"/>
+                                </td>
                                 <td class="disabled"></td>
-                                <td id="8" onclick="chooseSeat(8)" class="">8</td>
-                                <td id="9" onclick="chooseSeat(9)" class="">9</td>
+                                <td id="8" onclick="chooseSeat(8)" class="">
+                                    8
+                                    <input type="checkbox" name="chkSeat" value="8" hidden="" id="seatNum-8"/>
+                                </td>
+                                <td id="9" onclick="chooseSeat(9)" class="">
+                                    9
+                                    <input type="checkbox" name="chkSeat" value="9" hidden="" id="seatNum-9"/>
+                                </td>
                             </tr>
                             <tr>
-                                <td id="10" onclick="chooseSeat(10)" class="">10</td>
-                                <td id="11" onclick="chooseSeat(11)" class="">11</td>
+                                <td id="10" onclick="chooseSeat(10)" class="">
+                                    10
+                                    <input type="checkbox" name="chkSeat" value="10" hidden="" id="seatNum-10"/>
+                                </td>
+                                <td id="11" onclick="chooseSeat(11)" class="">
+                                    11
+                                    <input type="checkbox" name="chkSeat" value="11" hidden="" id="seatNum-11"/>
+                                </td>
                                 <td class="disabled"></td>
-                                <td id="12" onclick="chooseSeat(12)" class="">12</td>
-                                <td id="13" onclick="chooseSeat(13)" class="">13</td>
+                                <td id="12" onclick="chooseSeat(12)" class="">
+                                    12
+                                    <input type="checkbox" name="chkSeat" value="12" hidden="" id="seatNum-12"/>
+                                </td>
+                                <td id="13" onclick="chooseSeat(13)" class="">
+                                    13
+                                    <input type="checkbox" name="chkSeat" value="13" hidden="" id="seatNum-13"/>
+                                </td>
                             </tr>
                             <tr>
-                                <td id="14" onclick="chooseSeat(14)" class="">14</td>
-                                <td id="15" onclick="chooseSeat(15)" class="">15</td>
+                                <td id="14" onclick="chooseSeat(14)" class="">
+                                    14
+                                    <input type="checkbox" name="chkSeat" value="14" hidden="" id="seatNum-14"/>
+                                </td>
+                                <td id="15" onclick="chooseSeat(15)" class="">
+                                    15
+                                    <input type="checkbox" name="chkSeat" value="15" hidden="" id="seatNum-15"/>
+                                </td>
                                 <td class="disabled"></td>
                                 <td id="16" onclick="chooseSeat(16)" class="">16</td>
                                 <td id="17" onclick="chooseSeat(17)" class="">17</td>
@@ -154,7 +196,7 @@
                     alert("Vui lòng chọn ghế!");
                 }
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
+                xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var data = xhr.responseText;
                         alert(data);

@@ -42,7 +42,8 @@ public class CheckoutServlet extends HttpServlet {
             String[] seats = request.getParameterValues("chkSeat");
             for (String seat : seats) {
                 try {
-                    TripXMLCommonUtil.updateSeatStatus(tripID, seat, "false");
+                    String realPath = request.getServletContext().getRealPath("/");
+                    TripXMLCommonUtil.updateSeatStatus(tripID, seat, "false", realPath);
                 } catch (ParserConfigurationException | SAXException | TransformerException ex) {
                     Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }

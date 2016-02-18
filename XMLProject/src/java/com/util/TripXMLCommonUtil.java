@@ -30,27 +30,33 @@ import org.xml.sax.SAXException;
  */
 public class TripXMLCommonUtil {
 
-    public final static String tripXMLFilePath = "web/WEB-INF/trips.xml";
+    private final static String tripXMLFilePath = "WEB-INF/trips.xml";
     private static int countSeat = 0;
 
-    public static void updateTripsFile()
+    public static String getRealFilePath(String realPath) {
+        return realPath + TripXMLCommonUtil.tripXMLFilePath;
+    }
+    public static TripDTOList updateTripsFile(String realPath)
             throws JAXBException, ParserConfigurationException, SAXException, IOException {
-        File file = new File(TripXMLCommonUtil.tripXMLFilePath);
+        File file = new File(TripXMLCommonUtil.getRealFilePath(realPath));
         TripDTOList newTrips = DBUtilities.getAllTrips();
+        TripDTOList trips = null;
         if (!file.exists()) {
             XMLUtilities.JAXBMarshalling(newTrips, file);
+            return newTrips;
         } else {
-            TripDTOList trips = (TripDTOList) XMLUtilities.JAXBUnmarshalling(TripDTOList.class, TripXMLCommonUtil.tripXMLFilePath);
-            for (Trip trip : newTrips.getTrips()) {
-                trips.getTrips().add(trip);
+            trips = (TripDTOList) XMLUtilities.JAXBUnmarshalling(TripDTOList.class, TripXMLCommonUtil.getRealFilePath(realPath));
+            for (Trip trip : newTrips.getTrip()) {
+                trips.getTrip().add(trip);
             }
             XMLUtilities.JAXBMarshalling(trips, file);
         }
+        return trips;
     }
 
-    public static void updateTripStatus(String tripID, String status)
+    public static void updateTripStatus(String tripID, String status, String realPath)
             throws ParserConfigurationException, SAXException, IOException, TransformerException {
-        Document document = XMLUtilities.parseFileToDOM(new File(tripXMLFilePath));
+        Document document = XMLUtilities.parseFileToDOM(new File(getRealFilePath(realPath)));
 
         XPathFactory xPathFactory = XPathFactory.newInstance();
         XPath xPath = xPathFactory.newXPath();
@@ -60,15 +66,15 @@ public class TripXMLCommonUtil {
             Node node = (Node) xPath.evaluate(expression, document, XPathConstants.NODE);
             node.getAttributes().getNamedItem("isAvailable").setNodeValue(status);
 
-            XMLUtilities.transformDOMToFile(document, tripXMLFilePath);
+            XMLUtilities.transformDOMToFile(document, getRealFilePath(realPath));
         } catch (XPathExpressionException ex) {
             Logger.getLogger(TripXMLCommonUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static String checkSeatStatus(String tripID, String seatID) 
+    public static String checkSeatStatus(String tripID, String seatID, String realPath) 
             throws ParserConfigurationException, SAXException, IOException {
         String status = null;
-        Document document = XMLUtilities.parseFileToDOM(new File(tripXMLFilePath));
+        Document document = XMLUtilities.parseFileToDOM(new File(getRealFilePath(realPath)));
 
         XPathFactory xPathFactory = XPathFactory.newInstance();
         XPath xPath = xPathFactory.newXPath();
@@ -81,9 +87,9 @@ public class TripXMLCommonUtil {
         }
         return status;
     }
-    public static void updateSeatStatus(String tripID, String seatID, String status)
+    public static void updateSeatStatus(String tripID, String seatID, String status, String realPath)
             throws ParserConfigurationException, SAXException, IOException, TransformerException {
-        Document document = XMLUtilities.parseFileToDOM(new File(tripXMLFilePath));
+        Document document = XMLUtilities.parseFileToDOM(new File(getRealFilePath(realPath)));
 
         XPathFactory xPathFactory = XPathFactory.newInstance();
         XPath xPath = xPathFactory.newXPath();
@@ -93,14 +99,14 @@ public class TripXMLCommonUtil {
             Node node = (Node) xPath.evaluate(expression, document, XPathConstants.NODE);
             node.getAttributes().getNamedItem("available").setNodeValue(status);
 
-            XMLUtilities.transformDOMToFile(document, tripXMLFilePath);
+            XMLUtilities.transformDOMToFile(document, getRealFilePath(realPath));
         } catch (XPathExpressionException ex) {
             Logger.getLogger(TripXMLCommonUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static int countTotalSeats(String tripID) 
+    public static int countTotalSeats(String tripID, String realPath) 
             throws ParserConfigurationException, SAXException, IOException {
-        Document document = XMLUtilities.parseFileToDOM(new File(tripXMLFilePath));
+        Document document = XMLUtilities.parseFileToDOM(new File(getRealFilePath(realPath)));
 
         XPathFactory xPathFactory = XPathFactory.newInstance();
         XPath xPath = xPathFactory.newXPath();

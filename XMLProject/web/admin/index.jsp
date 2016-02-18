@@ -38,10 +38,13 @@
         <jsp:include page="${context}/header.jsp"/>
         <c:if test="${not empty user}">
             <div>
+                <c:set var="trips" value="${requestScope.TRIPS}}"/>
                 <form action="" method="GET">
                     Bus: <select name="ddlBus">
-                        <option value="LK">Long Khánh</option>
-                        <option value="SG">Sài Gòn</option>
+                        <c:if test="${not empty trips}">
+                            <c:import var="xslt" url="/WEB-INF/BusDDL.xsl"/>
+                            <x:transform doc="${trips}" xslt="${xslt}"/>
+                        </c:if>
                     </select><br>
                     Date: <select name="ddlDate" id="ddlDate">
                     </select>

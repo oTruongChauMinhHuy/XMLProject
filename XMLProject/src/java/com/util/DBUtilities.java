@@ -170,12 +170,13 @@ public class DBUtilities {
                 for (int i = 1; i <= car.getNumberOfSeats(); i++) {
                     Seat seat = new Seat();
                     seat.setId(String.valueOf(i));
+                    seat.setAvailable(Boolean.toString(true));
                     seats.getSeat().add(seat);
                 }
                 trip.setIsAvailable(rs.getString("isAvailable"));
                 trip.setSeats(seats);
                 //add trip
-                trips.getTrips().add(trip);
+                trips.getTrip().add(trip);
             }
             return trips;
         } catch (ClassNotFoundException | SQLException | ParseException | DatatypeConfigurationException e) {

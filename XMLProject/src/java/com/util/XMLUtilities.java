@@ -84,9 +84,9 @@ public class XMLUtilities {
         System.out.println("Finished!");
     }
 
-    public static <T> Object JAXBUnmarshalling(Class insClass, String fileSource)
+    public static <T> Object JAXBUnmarshalling(Object insClass, String fileSource)
             throws JAXBException {
-        JAXBContext jAXBContext = JAXBContext.newInstance(insClass);
+        JAXBContext jAXBContext = JAXBContext.newInstance(insClass.getClass());
         Unmarshaller unmarshaller = jAXBContext.createUnmarshaller();
 
         File file = new File(fileSource);

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<trips xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+       xmlns:='http://www.fpt.edu.vn/project/trips'
+       xsi:schemaLocation='http://www.fpt.edu.vn/project/trips Trips.xsd'>
+    <trip id="LK070220150700" isAvailable="1">
+        <bus>LK</bus>
+        <date>2015-02-07</date>
+        <time>07:00:00</time>
+        <car numberPlate="60B2-134.30">
+            <numberOfSeats>24</numberOfSeats>
+        </car>
+        <seats>
+            <seat id="1" available="true"/>
+            <seat id="2" available="true"/>
+            <seat id="3" available="true"/>
+            <seat id="4" available="true"/>
+            <seat id="5" available="true"/>
+            <seat id="6" available="true"/>
+            <seat id="7" available="true"/>
+            <seat id="8" available="true"/>
+            <seat id="9" available="true"/>
+            <seat id="10" available="true"/>
+            <seat id="11" available="true"/>
+            <seat id="12" available="true"/>
+            <seat id="13" available="true"/>
+            <seat id="14" available="true"/>
+            <seat id="15" available="true"/>
+            <seat id="16" available="true"/>
+            <seat id="17" available="true"/>
+            <seat id="18" available="true"/>
+            <seat id="19" available="true"/>
+            <seat id="20" available="true"/>
+            <seat id="21" available="true"/>
+            <seat id="22" available="true"/>
+            <seat id="23" available="true"/>
+            <seat id="24" available="true"/>
+        </seats>
+    </trip>
+    <trip id="LK070220150800" isAvailable="1">
+        <bus>LK</bus>
+        <date>2015-02-07</date>
+        <time>08:00:00</time>
+        <car numberPlate="60B2-134.23">
+            <numberOfSeats>24</numberOfSeats>
+        </car>
+        <seats>
+            <seat id="1" available="true"/>
+            <seat id="2" available="true"/>
+            <seat id="3" available="true"/>
+            <seat id="4" available="true"/>
+            <seat id="5" available="true"/>
+            <seat id="6" available="true"/>
+            <seat id="7" available="true"/>
+            <seat id="8" available="true"/>
+            <seat id="9" available="true"/>
+            <seat id="10" available="true"/>
+            <seat id="11" available="true"/>
+            <seat id="12" available="true"/>
+            <seat id="13" available="true"/>
+            <seat id="14" available="true"/>
+            <seat id="15" available="true"/>
+            <seat id="16" available="true"/>
+            <seat id="17" available="true"/>
+            <seat id="18" available="true"/>
+            <seat id="19" available="true"/>
+            <seat id="20" available="true"/>
+            <seat id="21" available="true"/>
+            <seat id="22" available="true"/>
+            <seat id="23" available="true"/>
+            <seat id="24" available="true"/>
+        </seats>
+    </trip>
+    <trip id="SG070220157000" isAvailable="1">
+        <bus>SG</bus>
+        <date>2015-02-07</date>
+        <time>07:00:00</time>
+        <car numberPlate="60B2-134.30">
+            <numberOfSeats>24</numberOfSeats>
+        </car>
+        <seats>
+            <seat id="1" available="true"/>
+            <seat id="2" available="true"/>
+            <seat id="3" available="true"/>
+            <seat id="4" available="true"/>
+            <seat id="5" available="true"/>
+            <seat id="6" available="true"/>
+            <seat id="7" available="true"/>
+            <seat id="8" available="true"/>
+            <seat id="9" available="true"/>
+            <seat id="10" available="true"/>
+            <seat id="11" available="true"/>
+            <seat id="12" available="true"/>
+            <seat id="13" available="true"/>
+            <seat id="14" available="true"/>
+            <seat id="15" available="true"/>
+            <seat id="16" available="true"/>
+            <seat id="17" available="true"/>
+            <seat id="18" available="true"/>
+            <seat id="19" available="true"/>
+            <seat id="20" available="true"/>
+            <seat id="21" available="true"/>
+            <seat id="22" available="true"/>
+            <seat id="23" available="true"/>
+            <seat id="24" available="true"/>
+        </seats>
+    </trip>
+</trips>

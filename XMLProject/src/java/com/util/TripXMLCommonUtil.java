@@ -6,7 +6,7 @@
 package com.util;
 
 import com.DTO.Trip;
-import com.DTO.TripDTOList;
+import com.DTO.Trips;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -36,16 +36,16 @@ public class TripXMLCommonUtil {
     public static String getRealFilePath(String realPath) {
         return realPath + TripXMLCommonUtil.tripXMLFilePath;
     }
-    public static TripDTOList updateTripsFile(String realPath)
+    public static Trips updateTripsFile(String realPath)
             throws JAXBException, ParserConfigurationException, SAXException, IOException {
         File file = new File(TripXMLCommonUtil.getRealFilePath(realPath));
-        TripDTOList newTrips = DBUtilities.getAllTrips();
-        TripDTOList trips = null;
+        Trips newTrips = DBUtilities.getAllTrips();
+        Trips trips = null;
         if (!file.exists()) {
             XMLUtilities.JAXBMarshalling(newTrips, file);
             return newTrips;
         } else {
-            trips = (TripDTOList) XMLUtilities.JAXBUnmarshalling(TripDTOList.class, TripXMLCommonUtil.getRealFilePath(realPath));
+            trips = (Trips) XMLUtilities.JAXBUnmarshalling(Trips.class, TripXMLCommonUtil.getRealFilePath(realPath));
             for (Trip trip : newTrips.getTrip()) {
                 trips.getTrip().add(trip);
             }

@@ -1,12 +1,5 @@
 
-import com.DTO.Bus;
-import com.DTO.Car;
-import com.DTO.Seat;
-import com.DTO.Trip;
-import com.DTO.TripDTOList;
 import com.util.TripXMLCommonUtil;
-import com.util.XMLUtilities;
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import javax.xml.bind.JAXBException;
@@ -31,9 +24,15 @@ public class Test {
      */
     public static void main(String[] args) throws JAXBException, ParserConfigurationException, SAXException, IOException, TransformerException, ParseException, DatatypeConfigurationException {
 //        String output = "src/java/";
-//        String fileSchemaURI = "web/WEB-INF/Trip.xsd";
+//        String fileSchemaURI = "web/WEB-INF/Trips.xsd";
 //        String packageName = "com.DTO";
-        TripXMLCommonUtil.updateTripsFile();
+//        XMLUtilities.XJCGenerateJavaObj(output, fileSchemaURI, packageName);
+        String xmlTrips = null;
+        String realPath ="web/";
+//        Trips trips = (Trips) XMLUtilities.JAXBUnmarshalling(Trips.class, TripXMLCommonUtil.getRealFilePath(realPath));
+//        xmlTrips = XMLUtilities.marshallToString(trips);
+        TripXMLCommonUtil.updateTripsFile(realPath);
+//        System.out.println(xmlTrips);
         
 //        TripXMLCommonUtil.updateTripStatus("LK070220150700", "false");
 //        TripXMLCommonUtil.updateSeatStatus("LK070220150700", "1", "pending");

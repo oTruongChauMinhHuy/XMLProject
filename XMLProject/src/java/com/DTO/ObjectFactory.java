@@ -38,6 +38,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Trips }
+     * 
+     */
+    public Trips createTrips() {
+        return new Trips();
+    }
+
+    /**
      * Create an instance of {@link Car }
      * 
      */

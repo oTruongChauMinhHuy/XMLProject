@@ -7,7 +7,9 @@ and open the template in the editor.
 
 <xs:schema version="1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           elementFormDefault="qualified">
+           xmlns:="http://www.fpt.edu.vn/project/trip"
+           elementFormDefault="qualified"
+           targetNamespace="http://www.fpt.edu.vn/project/trip">
     <xs:element name="trip">
         <xs:complexType>
             <xs:sequence>

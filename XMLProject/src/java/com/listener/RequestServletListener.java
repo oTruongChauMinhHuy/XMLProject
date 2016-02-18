@@ -6,7 +6,7 @@
 package com.listener;
 
 import com.DTO.CarDTOList;
-import com.DTO.TripDTOList;
+import com.DTO.Trips;
 import com.util.DBUtilities;
 import com.util.TripXMLCommonUtil;
 import com.util.XMLUtilities;
@@ -40,7 +40,7 @@ public class RequestServletListener implements ServletRequestListener {
             xmlCars = XMLUtilities.marshallToString(cars);
             System.out.println(xmlCars);
             String realPath = sre.getServletContext().getRealPath("/");
-            TripDTOList trips = TripXMLCommonUtil.updateTripsFile(realPath);
+            Trips trips = TripXMLCommonUtil.updateTripsFile(realPath);
             xmlTrips = XMLUtilities.marshallToString(trips);
             System.out.println(xmlTrips);
         } catch (JAXBException | ParserConfigurationException | SAXException | IOException ex) {

@@ -11,7 +11,7 @@ import com.DTO.Car;
 import com.DTO.CarDTOList;
 import com.DTO.Seat;
 import com.DTO.Trip;
-import com.DTO.TripDTOList;
+import com.DTO.Trips;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -140,7 +140,7 @@ public class DBUtilities {
         return null;
     }
 
-    public static TripDTOList getAllTrips() {
+    public static Trips getAllTrips() {
         Connection con = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -150,7 +150,7 @@ public class DBUtilities {
             statement = con.prepareStatement(sql);
             rs = statement.executeQuery();
 
-            TripDTOList trips = new TripDTOList();
+            Trips trips = new Trips();
             while (rs.next()) {
                 String tripID = rs.getString("tripID");
                 Trip trip = new Trip();
@@ -173,7 +173,8 @@ public class DBUtilities {
                     seat.setAvailable(Boolean.toString(true));
                     seats.getSeat().add(seat);
                 }
-                trip.setIsAvailable(rs.getString("isAvailable"));
+                String isAvailable = rs.getString("isAvailable");
+                trip.setIsAvailable(String.valueOf(Boolean.parseBoolean(isAvailable)));
                 trip.setSeats(seats);
                 //add trip
                 trips.getTrip().add(trip);

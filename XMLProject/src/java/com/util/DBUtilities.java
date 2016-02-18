@@ -33,7 +33,8 @@ public class DBUtilities {
     public static Connection makeConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String url = "jdbc:sqlserver://localhost:1433;databaseName=TripManager;instanceName=MSSQL2012";
-        return DriverManager.getConnection(url, "sa", "123456789");
+        //return DriverManager.getConnection(url, "sa", "123456789");
+        return null;
     }
 
     public static boolean checkLogin(String username, String password) {

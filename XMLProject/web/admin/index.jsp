@@ -40,9 +40,9 @@
             <div>
                 <c:set var="trips" value="${requestScope.TRIPS}}"/>
                 <form action="" method="GET">
+                    <c:import var="xslt" url="/WEB-INF/BusDDL.xsl"/>
                     Bus: <select name="ddlBus">
                         <c:if test="${not empty trips}">
-                            <c:import var="xslt" url="/WEB-INF/BusDDL.xsl"/>
                             <x:transform doc="${trips}" xslt="${xslt}"/>
                         </c:if>
                     </select><br>

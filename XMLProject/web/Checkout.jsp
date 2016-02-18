@@ -12,7 +12,7 @@
         <title>JSP Page</title>
         <script>
             function getData() {
-                var regexTime = /[\\?&]txtTime=([^&#]*)/;
+                var regexTime = /[\\?&]txtTripID=([^&#]*)/;
                 var regex = new RegExp(regexTime);
                 var results = regex.exec(window.location.href);
                 var time = results[1];
@@ -27,12 +27,12 @@
                 var form = document.getElementById("form-checkout");
 
                 var locate = time.substring(0, 2) === 'LK' ? 'Long Khánh' : 'Sài Gòn';
-                var tripText = locate + " : " + time.substring(2, 4) + "/" + time.substring(4, 6) + "/" + time.substring(6, 10)
+                var tripText = locate + " : " + time.substring(2, 6) + "/" + time.substring(6, 8) + "/" + time.substring(8, 10)
                         + " Giờ: " + time.substring(10, 12) + ":" + time.substring(12, 14);
                 document.getElementById('tripDecs').innerHTML = tripText;
                 var inputTimeNode = document.createElement('input');
                 inputTimeNode.setAttribute('type', 'hidden');
-                inputTimeNode.setAttribute('name', 'txtTime');
+                inputTimeNode.setAttribute('name', 'txtTripID');
                 inputTimeNode.setAttribute('value', time);
                 form.appendChild(inputTimeNode);
 

@@ -5059,8 +5059,11 @@ body {
 .car td.disabled {
     background-color: #cccccc !important;
 }
-.car td.selected {
+td.selected, tr.selected {
     background-color: #ccffcc !important;
+}
+tr.unselected {
+    background-color: #f7ecb5;
 }
 .countDown {
     background-color: red;

@@ -22,8 +22,10 @@ import javax.ws.rs.client.WebTarget;
  * @author HuyTCM1
  */
 public class LoginServlet extends HttpServlet {
+
     private final String homePage = "index.jsp";
     private final String loginPage = "Login.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -52,11 +54,12 @@ public class LoginServlet extends HttpServlet {
             if (result) {
                 returnUrl = homePage;
                 session.setAttribute("USER", username);
+                response.sendRedirect(returnUrl);
             } else {
                 request.setAttribute("msg", "Invalid username or password!!!");
+                RequestDispatcher rd = request.getRequestDispatcher(returnUrl);
+                rd.forward(request, response);
             }
-            RequestDispatcher rd = request.getRequestDispatcher(returnUrl);
-            rd.forward(request, response);
         }
     }
 

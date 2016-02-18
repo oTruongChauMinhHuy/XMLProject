@@ -30,28 +30,28 @@ import org.xml.sax.SAXException;
  */
 public class TripXMLCommonUtil {
 
-    private final static String tripXMLFilePath = "WEB-INF/trips.xml";
+    private final static String tripXMLFilePath = "trips.xml";
     private static int countSeat = 0;
 
     public static String getRealFilePath(String realPath) {
         return realPath + TripXMLCommonUtil.tripXMLFilePath;
     }
-    public static Trips updateTripsFile(String realPath)
+
+    public static void updateTripsFile(String realPath)
             throws JAXBException, ParserConfigurationException, SAXException, IOException {
         File file = new File(TripXMLCommonUtil.getRealFilePath(realPath));
         Trips newTrips = DBUtilities.getAllTrips();
-        Trips trips = null;
-        if (!file.exists()) {
-            XMLUtilities.JAXBMarshalling(newTrips, file);
-            return newTrips;
-        } else {
-            trips = (Trips) XMLUtilities.JAXBUnmarshalling(Trips.class, TripXMLCommonUtil.getRealFilePath(realPath));
-            for (Trip trip : newTrips.getTrip()) {
-                trips.getTrip().add(trip);
+        if (newTrips != null) {
+            if (!file.exists()) {
+                XMLUtilities.JAXBMarshalling(newTrips, file);
+            } else {
+                Trips trips = (Trips) XMLUtilities.JAXBUnmarshalling(Trips.class, TripXMLCommonUtil.getRealFilePath(realPath));
+                for (Trip trip : newTrips.getTrip()) {
+                    trips.getTrip().add(trip);
+                }
+                XMLUtilities.JAXBMarshalling(trips, file);
             }
-            XMLUtilities.JAXBMarshalling(trips, file);
         }
-        return trips;
     }
 
     public static void updateTripStatus(String tripID, String status, String realPath)
@@ -71,7 +71,8 @@ public class TripXMLCommonUtil {
             Logger.getLogger(TripXMLCommonUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static String checkSeatStatus(String tripID, String seatID, String realPath) 
+
+    public static String checkSeatStatus(String tripID, String seatID, String realPath)
             throws ParserConfigurationException, SAXException, IOException {
         String status = null;
         Document document = XMLUtilities.parseFileToDOM(new File(getRealFilePath(realPath)));
@@ -87,6 +88,7 @@ public class TripXMLCommonUtil {
         }
         return status;
     }
+
     public static void updateSeatStatus(String tripID, String seatID, String status, String realPath)
             throws ParserConfigurationException, SAXException, IOException, TransformerException {
         Document document = XMLUtilities.parseFileToDOM(new File(getRealFilePath(realPath)));
@@ -104,7 +106,8 @@ public class TripXMLCommonUtil {
             Logger.getLogger(TripXMLCommonUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static int countTotalSeats(String tripID, String realPath) 
+
+    public static int countTotalSeats(String tripID, String realPath)
             throws ParserConfigurationException, SAXException, IOException {
         Document document = XMLUtilities.parseFileToDOM(new File(getRealFilePath(realPath)));
 
@@ -120,6 +123,7 @@ public class TripXMLCommonUtil {
         }
         return countSeat;
     }
+
     private static void countSeat(Node node) {
         if (node == null) {
             return;
@@ -132,7 +136,7 @@ public class TripXMLCommonUtil {
         }
         NodeList list = node.getChildNodes();
         int i = 0;
-        while (i < list.getLength()) {            
+        while (i < list.getLength()) {
             countSeat(list.item(i++));
         }
     }

@@ -14,16 +14,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -84,9 +79,9 @@ public class XMLUtilities {
         System.out.println("Finished!");
     }
 
-    public static <T> Object JAXBUnmarshalling(Object insClass, String fileSource)
+    public static <T> Object JAXBUnmarshalling(Class insClass, String fileSource)
             throws JAXBException {
-        JAXBContext jAXBContext = JAXBContext.newInstance(insClass.getClass());
+        JAXBContext jAXBContext = JAXBContext.newInstance(insClass);
         Unmarshaller unmarshaller = jAXBContext.createUnmarshaller();
 
         File file = new File(fileSource);

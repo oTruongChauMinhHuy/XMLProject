@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
@@ -33,24 +34,19 @@ public class RequestServletListener implements ServletRequestListener {
 
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
-        CarDTOList cars = DBUtilities.getAllCars();
-        String xmlCars = null;
-        String xmlTrips = null;
-        try {
-            xmlCars = XMLUtilities.marshallToString(cars);
-            System.out.println(xmlCars);
-            String realPath = sre.getServletContext().getRealPath("/");
-            Trips trips = TripXMLCommonUtil.updateTripsFile(realPath);
-            xmlTrips = XMLUtilities.marshallToString(trips);
-            System.out.println(xmlTrips);
-        } catch (JAXBException | ParserConfigurationException | SAXException | IOException ex) {
-            Logger.getLogger(RequestServletListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (xmlCars != null) {
-            sre.getServletRequest().setAttribute("CARS", xmlCars);
-        }
-        if (xmlTrips != null) {
-            sre.getServletRequest().setAttribute("TRIPS", xmlTrips);
-        }
+//        CarDTOList cars = DBUtilities.getAllCars();
+//        String xmlCars = null;
+//        try {
+//            if (cars != null) {
+//                xmlCars = XMLUtilities.marshallToString(cars);
+//            }
+//            System.out.println(xmlCars);
+//            String realPath = sre.getServletContext().getRealPath("/");
+//        } catch (JAXBException ex) {
+//            Logger.getLogger(RequestServletListener.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        if (xmlCars != null) {
+//            sre.getServletRequest().setAttribute("CARS", xmlCars);
+//        }
     }
 }

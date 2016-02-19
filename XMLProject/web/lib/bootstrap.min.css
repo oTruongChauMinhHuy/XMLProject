@@ -5051,7 +5051,7 @@ body {
     font-size: 15px;
     font-style: oblique;
     text-align: center;
-    background-color: #99ff99;
+    background-color: #cccccc;
 }
 .car td:hover {
     background-color: #ffffcc;
@@ -5059,11 +5059,17 @@ body {
 .car td.disabled {
     background-color: #cccccc !important;
 }
-td.selected, tr.selected {
-    background-color: #ccffcc !important;
+td.true {
+    background-color: #99ff99;
 }
-tr.unselected {
-    background-color: #f7ecb5;
+td.selected, tr.selected {
+    background-color: #ccffcc;
+}
+td.false {
+    background-color: #d43f3a !important;
+}
+td.pending {
+    background-color: #ec971f !important;
 }
 .countDown {
     background-color: red;

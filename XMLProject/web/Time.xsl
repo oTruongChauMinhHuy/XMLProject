@@ -17,30 +17,29 @@
     -->
     <xsl:template match="/">
         <div>
-            <table class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th>Thời gian</th>
-                        <th>Còn trống</th>
-                    </tr>
-                </thead>
-                <form name="radioForm" action="">
+            <form name="radioForm" action="">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Còn trống</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <xsl:for-each select="trips/trip[(bus = $param_bus) and date = $param_date]">
-                            
                             <tr class="unselected" onclick="chooseTime('{@id}')" id="{@id}">
                                 <td>
                                     <xsl:value-of select="time"/>
                                 </td>
                                 <td>06</td>
-                                <td hidden=""><input type="radio" name="timeRadio" value="{@id}" hidden="" /></td>
+                                <td hidden="">
+                                    <input type="radio" name="timeRadio" value="{@id}"/>
+                                </td>
                             </tr>
-                            
                         </xsl:for-each>
-                    
                     </tbody>
-                </form>
-            </table>
+                </table>
+            </form>
         </div>
     </xsl:template>
 </xsl:stylesheet>

@@ -9,8 +9,8 @@
         </car>
         <seats>
             <seat id="1" available="true"/>
-            <seat id="2" available="true"/>
-            <seat id="3" available="true"/>
+            <seat id="2" available="false"/>
+            <seat id="3" available="pending"/>
             <seat id="4" available="true"/>
             <seat id="5" available="true"/>
             <seat id="6" available="true"/>

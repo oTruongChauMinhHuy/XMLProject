@@ -79,6 +79,15 @@
                     document.getElementById("countDown").innerHTML = i;
                     if (i-- <= 0) {
                         clearInterval(num);
+                        var tripID = document.getElementsByName('txtTripID')[0].value;
+                        var chkSeats = document.getElementsByName('chkSeat');
+                        var seats = "";
+                        for (var j = 0; j < chkSeats.length; j++) {
+                            seats += "&chkSeat=" + chkSeats.item(j).value;
+                        }
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('GET', 'CheckoutServlet?btAction=cancelSeat&txtTripID=' + tripID + seats, false);
+                        xhr.send(null);
                         alert("Hết thời gian!\n Xin vui lòng chọn ghế lại!");
                         window.location.href = "index.jsp";
                     }
@@ -99,7 +108,7 @@
         <jsp:include page="header.jsp"/>
     <c:set var="user" value="${sessionScope.USER}"/>
     <div class="main-container col-lg-11">
-        <form id="form-checkout" action="" method="GET" onsubmit="return validate();">
+        <form id="form-checkout" action="CheckoutServlet" method="GET" onsubmit="return validate();">
             <div class="countDown">
                 <p id="countDown" style="float: right; padding-right: 5px;"></p>
             </div>

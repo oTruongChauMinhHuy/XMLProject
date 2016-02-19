@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 
 /**
@@ -38,25 +39,27 @@ public class CheckSeats extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String tripID = request.getParameter("txtTripID");
             String[] seats = request.getParameterValues("seats");
+            boolean result = true;
             for (String seat : seats) {
                 try {
-                    String realPath = request.getServletContext().getRealPath("/");
-                    String result = seat+":" + TripXMLCommonUtil.checkSeatStatus(tripID, seat, realPath);
-                    out.print(result);
-                } catch (ParserConfigurationException | SAXException ex) {
+                    String realPath = this.getServletContext().getRealPath("/");
+                    String status = TripXMLCommonUtil.checkSeatStatus(tripID, seat, realPath);
+                    if (!status.equals("true")) {
+                        String message = "Ghế số " + seat + " hiện đang bận!\n";
+                        out.println(message);
+                        result = false;
+                    } else {
+                        TripXMLCommonUtil.updateSeatStatus(tripID, seat, "pending", realPath);
+                    }
+                } catch (ParserConfigurationException | SAXException | TransformerException ex) {
                     Logger.getLogger(CheckSeats.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NullPointerException e) {
+                    out.println("Vui lòng chọn ghế!");
+                }
+                if (result) {
+                    out.println(result);
                 }
             }
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CheckSeats</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CheckSeats at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 

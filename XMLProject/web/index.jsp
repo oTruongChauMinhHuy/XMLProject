@@ -116,20 +116,47 @@
                                     <input type="checkbox" name="chkSeat" value="15" hidden="" id="seatNum-15"/>
                                 </td>
                                 <td class="disabled"></td>
-                                <td id="16" onclick="chooseSeat(16)" class="">16</td>
-                                <td id="17" onclick="chooseSeat(17)" class="">17</td>
+                                <td id="16" onclick="chooseSeat(16)" class="">
+                                    16
+                                    <input type="checkbox" name="chkSeat" value="16" hidden="" id="seatNum-16"/>
+                                </td>
+                                <td id="17" onclick="chooseSeat(17)" class="">
+                                    17
+                                    <input type="checkbox" name="chkSeat" value="17" hidden="" id="seatNum-17"/>
+                                </td>
                             </tr>
                             <tr>
-                                <td id="18" onclick="chooseSeat(18)" class="">18</td>
-                                <td id="19" onclick="chooseSeat(19)" class="">19</td>
+                                <td id="18" onclick="chooseSeat(18)" class="">
+                                    18
+                                    <input type="checkbox" name="chkSeat" value="18" hidden="" id="seatNum-18"/>
+                                </td>
+                                <td id="19" onclick="chooseSeat(19)" class="">
+                                    19
+                                    <input type="checkbox" name="chkSeat" value="19" hidden="" id="seatNum-19"/>
+                                </td>
                                 <td class="disabled"></td>
-                                <td id="20" onclick="chooseSeat(20)" class="">20</td>
-                                <td id="21" onclick="chooseSeat(21)" class="">21</td>
+                                <td id="20" onclick="chooseSeat(20)" class="">
+                                    20
+                                    <input type="checkbox" name="chkSeat" value="20" hidden="" id="seatNum-20"/>
+                                </td>
+                                <td id="21" onclick="chooseSeat(21)" class="">
+                                    21
+                                    <input type="checkbox" name="chkSeat" value="21" hidden="" id="seatNum-21"/>
+                                </td>
                             </tr>
                             <tr>
-                                <td id="22" onclick="chooseSeat(22)" class="" colspan="2">22</td>
-                                <td id="23" onclick="chooseSeat(23)" class="">23</td>
-                                <td id="24" onclick="chooseSeat(24)" class="" colspan="2">24</td>
+                                <td id="22" onclick="chooseSeat(22)" class="" colspan="2">
+                                    22
+                                    <input type="checkbox" name="chkSeat" value="22" hidden="" id="seatNum-22"/>
+                                </td>
+                                <td id="23" onclick="chooseSeat(23)" class="">
+                                    23
+                                    <input type="checkbox" name="chkSeat" value="23" hidden="" id="seatNum-23"/>
+                                </td>
+                                <td id="24" onclick="chooseSeat(24)" class="" colspan="2">
+                                    24
+                                    <input type="checkbox" name="chkSeat" value="24" hidden="" id="seatNum-24"/>
+                                </td>
                             </tr>
                     </table>
                     <input type="submit" value="Checkout" name="btnAction" class="btn btn-success"/>
@@ -142,6 +169,8 @@
                 var bus = document.getElementById("ddlBuses").value;
                 var trip = document.getElementById("ddlTrip").value;
                 new Transformation().setXml("trips.xml").setXslt("Time.xsl").transform("resultTime", bus, trip);
+                document.getElementById("form-Time").value = "";
+                setSeat(null);
             }
             function chooseTime(timeId) {
                 var time = document.getElementsByName("timeRadio");
@@ -160,7 +189,7 @@
             }
             function setSeat(timeId) {
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
+                xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var data = xhr.responseXML;
                         setUpData(data, timeId);
@@ -173,78 +202,38 @@
                 var xPath = "trips/trip[@id='" + timeId + "']/seats";
                 var xpResult = data.evaluate(xPath, data, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
                 var DOM = xpResult.singleNodeValue;
+                if (DOM === null) {
+                    var chkSeats = document.getElementsByName("chkSeat");
+                    for (var i = 0; i < chkSeats.length; i++) {
+                        var parentNode = document.getElementById(chkSeats.item(i).value);
+                        parentNode.className = "";
+                    }
+                    return;
+                }
                 if (DOM.localName === 'seats') {
-                    var mapSeat = document.getElementById("mapSeat");
                     var nodes = DOM.childNodes;
                     for (var i = 0; i < nodes.length; i++) {
-                        var item = nodes.item(1);
+                        var item = nodes.item(i);
                         if (item.nodeName === 'seat') {
                             var attr = item.attributes;
-                            var availble = attr.available.nodeValue;
+                            var status = attr.getNamedItem('available').nodeValue;
                             var id = attr.id.nodeValue;
-                            var tr = document.createElement("tr");
-                            if (id === 1) {
-                                
-                                var td0 = document.createElement("td");
-                                td0.setAttribute('colspan', 2);
-                                td0.setAttribute('class', 'disabled');
-                                var td0TextNode = document.createTextNode(0);
-                                td0.appendChild(td0TextNode);
-                                
-                                tr.appendChild(td0);
-
-                                tr.appendChild(disableNode());
-
-                                tr.appendChild(seatNode(id, availble, 2));
-                                
-                                
-                            } else if (id < 22) {
-                                
-                            } else {
-                                tr.appendChild(seatNode(id, availble, 2));
-                                tr.appendChild(seatNode(id, availble, null));
-                                tr.appendChild(seatNode(id, availble, 2));
-                            }
-                            mapSeat.appendChild(tr);
+                            var parentNode = document.getElementById(id);
+                            parentNode.setAttribute('class', status);
                         }
                     }
-
                 }
-            }
-            function disableNode() {
-                var disableNode = document.createElement("td");
-                disableNode.setAttribute('class', 'disabled');
-                return disableNode;
-            }
-            function seatNode(id, status, colspan) {
-                var seatNode = document.createElement("td");
-                seatNode.setAttribute('id', id);
-                seatNode.setAttribute('class', status);
-                if (colspan !== null) {
-                    seatNode.setAttribute('colspan', colspan);
-                }
-                seatNode.setAttribute('onclick', "chooseSeat("+id+")");
-                var seatText = document.createTextNode(id);
-                seatNode.appendChild(seatText);
-                
-                var checkBox = document.createElement("input");
-                checkBox.setAttribute('type', 'checkbox');
-                checkBox.setAttribute('name', 'chkSeat');
-                checkBox.setAttribute('value', id);
-                checkBox.setAttribute('id', "seatNum-"+id);
-                checkBox.setAttribute('hidden', "");
-                seatNode.appendChild(checkBox);
-                
-                return seatNode;
             }
             function chooseSeat(index) {
                 var checked = document.getElementById("seatNum-" + index).checked;
-                if (!checked) {
-                    document.getElementById("seatNum-" + index).checked = true;
-                    document.getElementById("" + index).classList.add("selected");
-                } else {
-                    document.getElementById("seatNum-" + index).checked = false;
-                    document.getElementById("" + index).classList.remove("selected");
+                if (document.getElementById("" + index).classList.contains('true')) {
+                    if (!checked) {
+                        document.getElementById("seatNum-" + index).checked = true;
+                        document.getElementById("" + index).classList.add("selected");
+                    } else {
+                        document.getElementById("seatNum-" + index).checked = false;
+                        document.getElementById("" + index).classList.remove("selected");
+                    }
                 }
             }
             function validate() {
@@ -258,151 +247,73 @@
                 var seats = "";
                 for (var i = 0; i < chkSeat.length; i++) {
                     if (chkSeat[i].checked) {
-                        seats += "&seats=" + i;
+                        seats += "&seats=" + (i + 1);
                         isValidate = true;
                     }
                 }
                 if (!isValidate) {
                     alert("Vui lòng chọn ghế!");
+                    return false;
                 }
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
+                xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var data = xhr.responseText;
-                        alert(data);
+                        if (data !== 'true') {
+                            alert(data);
+                            window.location.href = "http://localhost:8080/index.jsp";
+                        }
                     }
                 };
-                xhr.open('GET', 'CheckSeats?txtTripID=' + tripID + seats, true);
+                xhr.open('GET', 'CheckSeats?txtTripID=' + tripID + seats, false);
                 xhr.send(null);
-                return isValidate;
             }
             function Transformation() {
-
                 var xml;
-
                 var xmlDoc;
-
                 var xslt;
-
                 var xsltDoc;
-
-                var callback = function () {
+                var callback = function() {
                 };
-
-                /**
-                 * Sort of like a fix for Opera who doesn't always get readyStates right.
-                 */
                 var transformed = false;
-
-                /**
-                 * Returns the URL of the XML document.
-                 * 
-                 * @return the URL of the XML document
-                 * @type String
-                 */
-                this.getXml = function () {
+                this.getXml = function() {
                     return xml;
                 };
-
-                /**
-                 * Returns the XML document.
-                 * 
-                 * @return the XML document
-                 */
-                this.getXmlDocument = function () {
+                this.getXmlDocument = function() {
                     return xmlDoc;
                 };
-
-                /**
-                 * Sets the URL of the XML document.
-                 * 
-                 * @param x the URL of the XML document
-                 * @return this
-                 * @type Transformation
-                 */
-                this.setXml = function (x) {
+                this.setXml = function(x) {
                     xml = x;
                     return this;
                 };
-
-                /**
-                 * Returns the URL of the XSLT document.
-                 * 
-                 * @return the URL of the XSLT document
-                 * @type String
-                 */
-                this.getXslt = function () {
+                this.getXslt = function() {
                     return xslt;
                 };
-
-                /**
-                 * Returns the XSLT document.
-                 * 
-                 * @return the XSLT document
-                 */
-                this.getXsltDocument = function () {
+                this.getXsltDocument = function() {
                     return xsltDoc;
                 };
-
-                /**
-                 * Sets the URL of the XSLT document.
-                 * 
-                 * @param x the URL of the XML document
-                 * @return this
-                 * @type Transformation
-                 */
-                this.setXslt = function (x) {
+                this.setXslt = function(x) {
                     xslt = x;
                     return this;
                 };
-
-                /**
-                 * Returns the callback function.
-                 * 
-                 * @return the callback function
-                 */
-                this.getCallback = function () {
+                this.getCallback = function() {
                     return callback;
                 };
-
-                /**
-                 * Sets the callback function
-                 * 
-                 * @param c the callback function
-                 * @return this
-                 * @type Transformation
-                 */
-                this.setCallback = function (c) {
+                this.setCallback = function(c) {
                     callback = c;
                     return this;
                 };
-
-                /**
-                 * Sets the target element to write the transformed content to and <em>asynchronously</em>
-                 * starts the transformation process.
-                 * <p>
-                 * <code>target</code> is the ID of an element. 2DO
-                 * <p>
-                 * This method may only be called after {@link #setXml} and {@link #setXslt} have
-                 * been called.
-                 * <p>
-                 * Note that the target element must exist once this method is called. Calling
-                 * this method before <code>onload</code> was fired will most likely
-                 * not work.
-                 * 
-                 * @param target the ID of an element
-                 */
-                this.transform = function (target, param_bus, param_date) {
+                this.transform = function(target, param_bus, param_date) {
                     if (!browserSupportsXSLT()) {
                         return;
                     }
                     var str = /^\s*</;
                     var t = this;
                     if (document.recalc) {
-                        var change = function () {
+                        var change = function() {
                             var c = 'complete';
                             if (xm.readyState === c && xs.readyState === c) {
-                                window.setTimeout(function () {
+                                window.setTimeout(function() {
                                     xmlDoc = xm.XMLDocument;
                                     xsltDoc = xs.XMLDocument;
                                     callback(t);
@@ -434,7 +345,7 @@
                         var xs = {
                             readyState: 4
                         };
-                        var change = function () {
+                        var change = function() {
                             if (xm.readyState === 4 && xs.readyState === 4 && !transformed) {
                                 xmlDoc = xm.responseXML;
                                 xsltDoc = xs.responseXML;
@@ -487,15 +398,7 @@
                         }
                     }
                 };
-
             }
-
-            /**
-             * Returns whether the browser supports XSLT.
-             * 
-             * @return the browser supports XSLT
-             * @type boolean
-             */
             function browserSupportsXSLT() {
                 var support = false;
                 if (document.recalc) { // IE 5+
@@ -512,8 +415,6 @@
                 }
                 return support;
             }
-
         </script>
-
     </body>
 </html>

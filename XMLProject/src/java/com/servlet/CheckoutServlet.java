@@ -40,9 +40,13 @@ public class CheckoutServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String tripID = request.getParameter("txtTripID");
             String[] seats = request.getParameterValues("chkSeat");
-            for (String seat : seats) {
+            String action = request.getParameter("btAction");
+            for (String seat : seats) {System.out.println(seat);
                 try {
-                    String realPath = request.getServletContext().getRealPath("/");
+                    String realPath = this.getServletContext().getRealPath("/");
+                    if (action.equals("cancelSeat")) {
+                        TripXMLCommonUtil.updateSeatStatus(tripID, seat, "true", realPath);
+                    }
                     TripXMLCommonUtil.updateSeatStatus(tripID, seat, "false", realPath);
                 } catch (ParserConfigurationException | SAXException | TransformerException ex) {
                     Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);

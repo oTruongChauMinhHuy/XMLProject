@@ -40,7 +40,7 @@ public class TripServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String action = request.getParameter("btnAction");
             
-            String realPath = request.getServletContext().getRealPath("/");
+            String realPath = this.getServletContext().getRealPath("/");
             boolean result = false;
             switch (action) {
                 case "AddTrip": {

@@ -5,9 +5,13 @@
  */
 package com.servlet;
 
+import com.util.TimerSeats;
 import com.util.TripXMLCommonUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -40,9 +44,9 @@ public class CheckSeats extends HttpServlet {
             String tripID = request.getParameter("txtTripID");
             String[] seats = request.getParameterValues("seats");
             boolean result = true;
+            String realPath = this.getServletContext().getRealPath("/");
             for (String seat : seats) {
                 try {
-                    String realPath = this.getServletContext().getRealPath("/");
                     String status = TripXMLCommonUtil.checkSeatStatus(tripID, seat, realPath);
                     if (!status.equals("true")) {
                         String message = "Ghế số " + seat + " hiện đang bận!\n";
@@ -60,6 +64,8 @@ public class CheckSeats extends HttpServlet {
                     out.println(result);
                 }
             }
+            Timer timer = new Timer();
+            timer.schedule(new TimerSeats(seats, tripID, realPath), 35 * 1000);
         }
     }
 

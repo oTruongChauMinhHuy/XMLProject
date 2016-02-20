@@ -34,6 +34,7 @@ public class CheckoutServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     private final String indexPage = "index.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -41,13 +42,15 @@ public class CheckoutServlet extends HttpServlet {
             String tripID = request.getParameter("txtTripID");
             String[] seats = request.getParameterValues("chkSeat");
             String action = request.getParameter("btAction");
-            for (String seat : seats) {System.out.println(seat);
+            for (String seat : seats) {
+                System.out.println(seat);
                 try {
                     String realPath = this.getServletContext().getRealPath("/");
-                    if (action.equals("cancelSeat")) {
+                    if (action.equals("Cancel")) {
                         TripXMLCommonUtil.updateSeatStatus(tripID, seat, "true", realPath);
+                    } else if (action.equals("Paid")) {
+                        TripXMLCommonUtil.updateSeatStatus(tripID, seat, "false", realPath);
                     }
-                    TripXMLCommonUtil.updateSeatStatus(tripID, seat, "false", realPath);
                 } catch (ParserConfigurationException | SAXException | TransformerException ex) {
                     Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }

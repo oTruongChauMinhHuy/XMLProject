@@ -86,7 +86,7 @@
                             seats += "&chkSeat=" + chkSeats.item(j).value;
                         }
                         var xhr = new XMLHttpRequest();
-                        xhr.open('GET', 'CheckoutServlet?btAction=cancelSeat&txtTripID=' + tripID + seats, false);
+                        xhr.open('GET', 'CheckoutServlet?btAction=Cancel&txtTripID=' + tripID + seats, false);
                         xhr.send(null);
                         alert("Hết thời gian!\n Xin vui lòng chọn ghế lại!");
                         window.location.href = "index.jsp";
@@ -125,7 +125,8 @@
                 <tbody id="table-body">
                 </tbody>
             </table>
-            <input type="submit" value="Paid" name="btnAction" class="btn btn-primary" style="float: right; width: 100px;"/>
+            <input type="submit" value="Cancel" name="btAction" class="btn btn-warning" style="float: right; width: 100px;"/>
+            <input type="submit" value="Paid" name="btAction" class="btn btn-primary" style="float: right; width: 100px;"/>
         </form>
     </div>
 </body>

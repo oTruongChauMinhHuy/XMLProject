@@ -9,7 +9,6 @@ import com.DTO.Trip;
 import com.DTO.Trips;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
@@ -37,20 +36,29 @@ public class TripXMLCommonUtil {
         return realPath + TripXMLCommonUtil.tripXMLFilePath;
     }
 
+    public static void createTripXMLFile(String realPath) throws JAXBException {
+        File file = new File(TripXMLCommonUtil.getRealFilePath(realPath));
+        if (!file.exists()) {
+            Trips trips = DBUtilities.getAllTrips();
+            if (trips != null) {
+                XMLUtilities.JAXBMarshalling(trips, file);
+            }
+        }
+    }
+
     public static void updateTripsFile(String realPath)
             throws JAXBException, ParserConfigurationException, SAXException, IOException {
+        StAXCursor.updateAvailableTrips(TripXMLCommonUtil.getRealFilePath(realPath));
         File file = new File(TripXMLCommonUtil.getRealFilePath(realPath));
         Trips newTrips = DBUtilities.getAllTrips();
         if (newTrips != null) {
-            if (!file.exists()) {
-                XMLUtilities.JAXBMarshalling(newTrips, file);
-            } else {
-                Trips trips = (Trips) XMLUtilities.JAXBUnmarshalling(Trips.class, TripXMLCommonUtil.getRealFilePath(realPath));
-                for (Trip trip : newTrips.getTrip()) {
+            Trips trips = (Trips) XMLUtilities.JAXBUnmarshalling(Trips.class, TripXMLCommonUtil.getRealFilePath(realPath));
+            for (Trip trip : newTrips.getTrip()) {
+                if (trips.getTripbyID(trip.getId()) == null) {
                     trips.getTrip().add(trip);
                 }
-                XMLUtilities.JAXBMarshalling(trips, file);
             }
+            XMLUtilities.JAXBMarshalling(trips, file);
         }
     }
 

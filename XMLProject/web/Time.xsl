@@ -26,7 +26,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <xsl:for-each select="trips/trip[(bus = $param_bus) and date = $param_date]">
+                        <xsl:for-each select="trips/trip[@isAvailable = 'true' and bus = $param_bus and date = $param_date]">
                             <tr class="unselected" onclick="chooseTime('{@id}')" id="{@id}">
                                 <td>
                                     <xsl:value-of select="time"/>

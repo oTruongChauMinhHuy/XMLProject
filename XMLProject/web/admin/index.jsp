@@ -14,15 +14,16 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Manage page</title>
         <script type="text/javascript">
-            function setData() {
+            function setDate() {
                 var currentDate = new Date();
 
                 var ddlDate = document.getElementById("ddlDate");
                 for (var i = 0; i < 3; i++) {
                     var optionDate = document.createElement("option");
-                    var dateText = currentDate.getFullYear() + '-' +
-                            (currentDate.getMonth() + 1) + '-' +
-                            currentDate.getDate();
+                    var year = currentDate.getFullYear();
+                    var month = currentDate.getMonth() > 9 ? (currentDate.getMonth() + 1) : "0" + (currentDate.getMonth() + 1);
+                    var date = currentDate.getDate() < 10 ? "0" + currentDate.getDate() : currentDate.getDate();
+                    var dateText = year + '-' + month + '-' + date;
                     optionDate.setAttribute('value', dateText);
                     var dateTextNode = document.createTextNode(dateText);
                     optionDate.appendChild(dateTextNode);
@@ -33,28 +34,53 @@
             }
         </script>
     </head>
-    <body onload="setData()">
+    <body onload="setDate()">
         <c:set var="user" value="${sessionScope.USER}"/>
         <jsp:include page="${context}/header.jsp"/>
         <c:if test="${not empty user}">
-            <div>
-                <c:set var="trips" value="${requestScope.TRIPS}}"/>
-                <form action="" method="GET">
-                    <c:import var="xslt" url="/WEB-INF/BusDDL.xsl"/>
-                    Bus: <select name="ddlBus">
-                        <c:if test="${not empty trips}">
-                            <x:transform doc="${trips}" xslt="${xslt}"/>
+            <div class="main-container col-lg-11">
+                <div class="col-lg-5">
+                    <form action="../ControllerServlet" method="GET">
+                        <c:import var="xslt" url="/WEB-INF/BusDDL.xsl"/>
+                        Bus: <select name="ddlBus">
+                            <option value="LK">Long Khánh - Sài Gòn</option>
+                            <option value="SG">Sài Gòn - Long Khánh</option>
+                        </select><br>
+                        Date: <select name="ddlDate" id="ddlDate">
+                        </select>
+                        Hour: <select name="txtHour" style="width: 40px;">
+                            <c:forEach var="i" begin="4" end="18">
+                                <c:if test="${i < 10}">
+                                    <option value="0${i}">0${i}</option>
+                                </c:if>
+                                <c:if test="${i >= 10}">
+                                    <option value="${i}">${i}</option>
+                                </c:if>
+                            </c:forEach>
+                        </select> 
+                        Min: <select name="txtMin" style="width: 40px;">
+                            <option value="00">00</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                        </select><br>
+                        <c:set var="cars" value="${requestScope.CARS}"/>
+                        <c:if test="${not empty cars}">
+                            Car: <c:import var="xslt" url="/WEB-INF/CarDDL.xsl"/>
+                            <x:transform doc="${cars}" xslt="${xslt}"/>
                         </c:if>
-                    </select><br>
-                    Date: <select name="ddlDate" id="ddlDate">
-                    </select>
-                    Hour: <input type="text" name="txtHour"/> Min: <input type="text" name="txtMin"/><br>
-                    <c:set var="cars" value="${requestScope.CARS}"/>
-                    <c:if test="${not empty cars}">
-                        Car: <c:import var="xslt" url="/WEB-INF/CarDDL.xsl"/>
-                        <x:transform doc="${cars}" xslt="${xslt}"/>
+                        <input type="submit" name="btnAction" value="AddTrip"/>
+                    </form>
+                </div>
+                <div class="col-lg-11">
+                    <c:import var="xmldoc" url="../trips.xml"/>
+                    <c:import var="tripsXSLT" url="TripsDDL.xsl"/>
+                    <c:if test="${not empty xmldoc}">
+                        <x:transform doc="${xmldoc}" xslt="${tripsXSLT}"/>
                     </c:if>
-                </form>
+                </div>
             </div>
         </c:if>
     </body>

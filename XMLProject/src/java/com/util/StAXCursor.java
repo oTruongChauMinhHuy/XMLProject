@@ -102,7 +102,7 @@ public class StAXCursor {
         }
     }
 
-    public static void reWriteFile(File source, File target)
+    private static void reWriteFile(File source, File target)
             throws FileNotFoundException, IOException {
         FileReader reader = new FileReader(source);
         BufferedReader bufferedReader;

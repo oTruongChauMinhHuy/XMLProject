@@ -33,8 +33,7 @@ public class DBUtilities {
     public static Connection makeConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String url = "jdbc:sqlserver://localhost:1433;databaseName=TripManager;instanceName=MSSQL2012";
-        //return DriverManager.getConnection(url, "sa", "123456789");
-        return null;
+        return DriverManager.getConnection(url, "sa", "123456789");
     }
 
     public static boolean checkLogin(String username, String password) {
@@ -174,8 +173,12 @@ public class DBUtilities {
                     seat.setAvailable(Boolean.toString(true));
                     seats.getSeat().add(seat);
                 }
-                String isAvailable = rs.getString("isAvailable");
-                trip.setIsAvailable(String.valueOf(Boolean.parseBoolean(isAvailable)));
+                boolean isAvailable = rs.getBoolean("isAvailable");
+                if (Boolean.valueOf(isAvailable)) {
+                    trip.setIsAvailable("true");
+                } else {
+                    trip.setIsAvailable("false");
+                }
                 trip.setSeats(seats);
                 //add trip
                 trips.getTrip().add(trip);
@@ -201,7 +204,8 @@ public class DBUtilities {
         return null;
     }
 
-    public static boolean addNewTrip(Trip trip) {
+    public static boolean addNewTrip(Trip trip) 
+            throws ClassNotFoundException, SQLException {
         Connection con = null;
         PreparedStatement statement = null;
         try {
@@ -220,8 +224,6 @@ public class DBUtilities {
             if (result > 0) {
                 return true;
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (statement != null) {
@@ -237,13 +239,14 @@ public class DBUtilities {
         return false;
     }
 
-    public static boolean startTrip(String tripID, int totalSeats) {
+    public static boolean startTrip(String tripID, int totalSeats) 
+            throws ClassNotFoundException, SQLException {
         Connection con = null;
         PreparedStatement statement = null;
         try {
             con = makeConnection();
             String sql;
-            if (totalSeats > 0) {
+            if (totalSeats >= 0) {
                 sql = "UPDATE Trips SET isAvailable = 0, totalSeats = ? WHERE tripID = ?";
                 statement = con.prepareStatement(sql);
                 statement.setInt(1, totalSeats);
@@ -258,8 +261,6 @@ public class DBUtilities {
             if (result > 0) {
                 return true;
             }
-        } catch (ClassNotFoundException | SQLException e) {
-            Logger.getLogger(DBUtilities.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             try {
                 if (statement != null) {

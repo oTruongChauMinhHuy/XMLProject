@@ -34,19 +34,19 @@ public class RequestServletListener implements ServletRequestListener {
 
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
-//        CarDTOList cars = DBUtilities.getAllCars();
-//        String xmlCars = null;
-//        try {
-//            if (cars != null) {
-//                xmlCars = XMLUtilities.marshallToString(cars);
-//            }
-//            System.out.println(xmlCars);
-//            String realPath = sre.getServletContext().getRealPath("/");
-//        } catch (JAXBException ex) {
-//            Logger.getLogger(RequestServletListener.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        if (xmlCars != null) {
-//            sre.getServletRequest().setAttribute("CARS", xmlCars);
-//        }
+        CarDTOList cars = DBUtilities.getAllCars();
+        String xmlCars = null;
+        if (cars != null) {
+            try {
+                xmlCars = XMLUtilities.marshallToString(cars);
+                String realPath = sre.getServletContext().getRealPath("/");
+                TripXMLCommonUtil.createTripXMLFile(realPath);
+            } catch (JAXBException ex) {
+                Logger.getLogger(RequestServletListener.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (xmlCars != null) {
+            sre.getServletRequest().setAttribute("CARS", xmlCars);
+        }
     }
 }

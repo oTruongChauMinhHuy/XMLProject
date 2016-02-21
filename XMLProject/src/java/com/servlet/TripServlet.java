@@ -12,11 +12,16 @@ import com.util.DBUtilities;
 import com.util.TripXMLCommonUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 
 /**
@@ -34,12 +39,15 @@ public class TripServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private final String adminPage = "admin/index.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = response.getWriter();
+        try {
             String action = request.getParameter("btnAction");
-            
+
             String realPath = this.getServletContext().getRealPath("/");
             boolean result = false;
             switch (action) {
@@ -68,20 +76,42 @@ public class TripServlet extends HttpServlet {
                     try {
                         int totalSeats = TripXMLCommonUtil.countTotalSeats(tripID, realPath);
                         result = DBUtilities.startTrip(tripID, totalSeats);
+                        if (result) {
+                            TripXMLCommonUtil.updateTripStatus(tripID, "false", realPath);
+                        }
                     } catch (ParserConfigurationException | SAXException | IOException e) {
                         log(TripServlet.class.getName(), e);
+                    } catch (TransformerException ex) {
+                        Logger.getLogger(TripServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 }
                 case "CancelTrip": {
                     String tripID = request.getParameter("txtTripID");
-                    result = DBUtilities.startTrip(tripID, 0);
+                    result = DBUtilities.startTrip(tripID, -1);
+                    if (result) {
+                        try {
+                            TripXMLCommonUtil.updateTripStatus(tripID, "false", realPath);
+                        } catch (ParserConfigurationException | SAXException | TransformerException ex) {
+                            Logger.getLogger(TripServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                     break;
                 }
             }
             if (result) {
-                
+                try {
+                    TripXMLCommonUtil.updateTripsFile(realPath);
+                } catch (JAXBException | ParserConfigurationException | SAXException ex) {
+                    Logger.getLogger(TripServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                response.sendRedirect(adminPage);
             }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(TripServlet.class.getName()).log(Level.SEVERE, null, ex);
+            out.println("Please <a href='http://localhost:8080/admin/'>try again!</a>!<br>");
+            out.println("Error: ");
+            out.println(ex);
         }
     }
 

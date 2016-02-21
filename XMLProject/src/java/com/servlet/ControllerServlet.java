@@ -41,7 +41,7 @@ public class ControllerServlet extends HttpServlet {
             String url = null;
             if (action.equals("Login")) {
                 url = loginServlet;
-            } else if (action.equals("AddTrip")||action.equals("StartTrip")) {
+            } else if (action.equals("AddTrip")||action.equals("StartTrip")||action.equals("CancelTrip")) {
                 url = TripServlet;
             } else if (action.equals("CreateUser")) {
                 url = UserServlet;
